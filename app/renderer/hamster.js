@@ -6,18 +6,43 @@
   const bridge = window.hamster;
   const demo = !bridge && new URLSearchParams(location.search).has('demo');
   const modes = new Set(['walk', 'idle', 'pet', 'sleep', 'drag', 'feed']);
-  let state = { mode: 'idle', direction: 1, phase: 0, affection: 0, paused: false };
+  const defaultAppearance = { hat: 'none', glasses: 'none', outfit: 'none', color: 'sage' };
+  const appearanceOptions = {
+    hat: new Set(['none', 'beanie', 'cap', 'crown', 'flower', 'cowboy']),
+    glasses: new Set(['none', 'round', 'sun', 'heart']),
+    outfit: new Set(['none', 'hoodie', 'mariniere', 'scarf', 'overalls']),
+    color: new Set(['sage', 'blue', 'rose', 'lavender', 'orange'])
+  };
+  let state = { mode: 'idle', direction: 1, phase: 0, affection: 0, paused: false, appearance: { ...defaultAppearance } };
   let previousMode = 'idle';
   let snackTimer;
   let dragging = false;
   let manualMode = false;
   let unsubscribe;
+  let appearanceKey = '';
 
   if (demo) document.documentElement.classList.add('demo');
+
+  function normalizeAppearance(input) {
+    const value = input && typeof input === 'object' ? input : {};
+    return Object.fromEntries(Object.keys(defaultAppearance).map(key => [key, appearanceOptions[key].has(value[key]) ? value[key] : defaultAppearance[key]]));
+  }
+
+  function applyAppearance(input) {
+    const appearance = normalizeAppearance(input);
+    const key = Object.values(appearance).join('|');
+    if (key !== appearanceKey) {
+      for (const [category, value] of Object.entries(appearance)) world.dataset[category] = value;
+      if (demo) document.querySelectorAll('[data-appearance]').forEach(select => { select.value = appearance[select.dataset.appearance]; });
+      appearanceKey = key;
+    }
+    return appearance;
+  }
 
   function update(next) {
     const beginSnack = next.mode === 'feed' && state.mode !== 'feed';
     state = { ...state, ...next };
+    state.appearance = applyAppearance(state.appearance);
     world.dataset.mode = modes.has(state.mode) ? state.mode : 'idle';
     world.dataset.direction = state.direction === -1 ? '-1' : '1';
     world.classList.toggle('paused', !!state.paused);
@@ -93,6 +118,25 @@
       update({ mode: elapsed % 14 < 7 ? 'idle' : 'walk', direction: Math.floor(elapsed / 14) % 2 ? -1 : 1 });
     }, 1000);
     window.addEventListener('beforeunload', () => clearInterval(autonomous), { once: true });
+  }
+
+  if (demo) {
+    try { state.appearance = normalizeAppearance(JSON.parse(localStorage.getItem('pip-demo-appearance'))); } catch (_) { /* The preview also works when browser storage is disabled. */ }
+    const params = new URLSearchParams(location.search);
+    for (const key of Object.keys(defaultAppearance)) if (params.has(key) && appearanceOptions[key].has(params.get(key))) state.appearance[key] = params.get(key);
+    const saveDemoAppearance = () => {
+      try { localStorage.setItem('pip-demo-appearance', JSON.stringify(state.appearance)); } catch (_) { /* Optional preview persistence only. */ }
+    };
+    document.querySelectorAll('[data-appearance]').forEach(select => {
+      select.addEventListener('change', () => {
+        update({ appearance: { ...state.appearance, [select.dataset.appearance]: select.value } });
+        saveDemoAppearance();
+      });
+    });
+    document.getElementById('demo-reset-look').addEventListener('click', () => {
+      update({ appearance: { ...defaultAppearance } });
+      saveDemoAppearance();
+    });
   }
 
   window.addEventListener('beforeunload', () => {

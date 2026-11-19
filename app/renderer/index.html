@@ -20,6 +20,14 @@
         <button type="button" data-mode="sleep">Dodo</button>
         <button type="button" id="demo-feed">Une graine</button>
       </div>
+      <fieldset class="demo-wardrobe">
+        <legend>La petite garde-robe de Pip</legend>
+        <label>Couvre-chef<select id="demo-hat" data-appearance="hat"><option value="none">Sans couvre-chef</option><option value="beanie">Bonnet à pompon</option><option value="cap">Casquette</option><option value="crown">Petite couronne</option><option value="flower">Fleur dans les poils</option><option value="cowboy">Chapeau de cowboy</option></select></label>
+        <label>Lunettes<select id="demo-glasses" data-appearance="glasses"><option value="none">Sans lunettes</option><option value="round">Lunettes rondes</option><option value="sun">Lunettes de soleil</option><option value="heart">Lunettes cœur</option></select></label>
+        <label>Tenue<select id="demo-outfit" data-appearance="outfit"><option value="none">Tout en fourrure</option><option value="hoodie">Petit sweat</option><option value="mariniere">Marinière</option><option value="scarf">Écharpe douillette</option><option value="overalls">Salopette</option></select></label>
+        <label>Couleur<select id="demo-color" data-appearance="color"><option value="sage">Sauge</option><option value="blue">Bleu</option><option value="rose">Rose</option><option value="lavender">Lavande</option><option value="orange">Mandarine</option></select></label>
+        <button id="demo-reset-look" type="button">Retrouver Pip au naturel</button>
+      </fieldset>
       <div class="demo-platforms">WINDOWS & MAC <span>·</span> TOUT DOUX, TOUT SIMPLEMENT</div>
     </div>
     <div class="demo-scene" aria-hidden="true">
@@ -29,7 +37,7 @@
       <div class="scene-caption">BONJOUR, TOI ♡</div>
     </div>
   </main>
-  <div class="pet-world" id="pet-world" data-mode="idle" data-direction="1" role="img" aria-label="Pip, un petit hamster">
+  <div class="pet-world" id="pet-world" data-mode="idle" data-direction="1" data-hat="none" data-glasses="none" data-outfit="none" data-color="sage" role="img" aria-label="Pip, un petit hamster">
     <svg class="pet-art" id="hamster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" aria-hidden="true">
       <defs>
         <radialGradient id="fur" cx="42%" cy="28%" r="77%"><stop offset="0" stop-color="#f4cea0"/><stop offset="0.55" stop-color="#e8b47e"/><stop offset="1" stop-color="#d7985e"/></radialGradient>
@@ -54,6 +62,33 @@
             <path class="fur-tuft" d="M109 80 C112 75 116 73 117 77 C120 71 123 72 123 77 C128 74 131 76 129 80" fill="#f2c697" stroke="#c89564" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
             <ellipse cx="72" cy="157" rx="24" ry="21" fill="url(#blush)"/><ellipse cx="168" cy="157" rx="24" ry="21" fill="url(#blush)"/>
             <g class="cheek-freckles" fill="#d7a18a" opacity=".65"><circle cx="72" cy="153" r="1.1"/><circle cx="77" cy="157" r="1"/><circle cx="70" cy="159" r=".9"/><circle cx="168" cy="153" r="1.1"/><circle cx="163" cy="157" r="1"/><circle cx="170" cy="159" r=".9"/></g>
+            <g class="wardrobe outfit outfit-hoodie" stroke-linecap="round" stroke-linejoin="round">
+              <path class="fabric" d="M74 167 Q86 161 99 165 Q120 178 141 165 Q154 161 166 167 L174 195 Q176 207 164 210 Q120 221 76 210 Q64 207 66 195Z" stroke-width="1.8"/>
+              <path class="fabric-dark" d="M95 166 Q120 182 145 166 L140 173 Q120 188 100 173Z"/>
+              <path d="M106 177v9m28-9v9" fill="none" stroke="#fff4df" stroke-width="1.8"/>
+              <circle cx="106" cy="187" r="1.7" fill="#fff4df"/><circle cx="134" cy="187" r="1.7" fill="#fff4df"/>
+              <path class="fabric-light" d="M101 192 Q120 186 139 192 L142 205 Q120 211 98 205Z" stroke-width="1.1"/>
+              <path d="M79 208q41 10 82 0" fill="none" stroke="#fff8e9" stroke-opacity=".45" stroke-width="1.5"/>
+            </g>
+            <g class="wardrobe outfit outfit-mariniere" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M74 167 Q85 163 99 166 Q120 178 141 166 Q155 163 166 167 L174 195 Q175 207 163 210 Q120 220 77 210 Q65 207 66 195Z" fill="#fff8e7" class="fabric-outline" stroke-width="1.8"/>
+              <path class="stripe" d="M74 177q46 15 92 0m-97 12q51 16 102 0m-102 12q51 16 102 0" fill="none" stroke-width="5"/>
+              <path class="stripe" d="M98 166q22 16 44 0" fill="none" stroke-width="3"/>
+              <path d="M119 187v11m-5-5h10m-11 1q7 13 14 0" fill="none" stroke="#b5a07e" stroke-width="1.6"/>
+            </g>
+            <g class="wardrobe outfit outfit-scarf" stroke-linecap="round" stroke-linejoin="round">
+              <path class="fabric-dark" d="M133 171 Q146 170 151 178 L151 201 L135 207 L134 184Z" stroke-width="1.6"/>
+              <path class="fabric" d="M77 166 Q120 181 163 166 L166 177 Q120 194 74 177Z" stroke-width="1.8"/>
+              <path class="fabric-light" d="M82 172q38 13 76 0" fill="none" stroke-width="2"/>
+              <path class="fabric-light" d="m140 184 7-2m-7 9 7-2m-10 13v6m5-7v6m5-8v6" fill="none" stroke-width="1.6"/>
+            </g>
+            <g class="wardrobe outfit outfit-overalls" stroke-linecap="round" stroke-linejoin="round">
+              <path class="fabric" d="M87 177 L90 164 L101 166 L103 179 H137 L139 166 L150 164 L153 177 L163 191 L163 210 Q120 220 77 210 L77 191Z" stroke-width="1.8"/>
+              <path class="fabric-light" d="M100 181h40v26q-20 7-40 0Z" stroke-width="1.3"/>
+              <path class="fabric-dark" d="M110 190h20v11q-10 6-20 0Z"/>
+              <path d="M120 210v6m-30-43 6 9m54-9-6 9" fill="none" class="fabric-outline" stroke-width="1.3"/>
+              <circle cx="98" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8"/><circle cx="142" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8"/>
+            </g>
             <g class="eyes-open">
               <g class="eye-left"><ellipse cx="91" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="89.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="93" cy="142" r=".9" fill="#cbb5a2"/></g>
               <g class="eye-right"><ellipse cx="149" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="147.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="151" cy="142" r=".9" fill="#cbb5a2"/></g>
@@ -62,9 +97,58 @@
             <g class="eyes-sleep" fill="none" stroke="#6f4b3e" stroke-width="2.5" stroke-linecap="round"><path d="M84 140 Q91 146 98 140"/><path d="M142 140 Q149 146 156 140"/></g>
             <g class="muzzle"><ellipse cx="111" cy="155" rx="13" ry="9" fill="#fff9ed"/><ellipse cx="129" cy="155" rx="13" ry="9" fill="#fff9ed"/><path d="M115 150 C115 146 125 146 125 150 C124 153 121 155 120 155 C119 155 116 153 115 150Z" fill="#b97e76"/><path d="M120 154v4m-8-1q4 7 8 1q4 6 8-1" stroke="#926653" stroke-width="1.7" fill="none" stroke-linecap="round"/><path class="smile" d="M116 161q4 6 8 0" fill="#dda297"/></g>
             <g class="whiskers" fill="none" stroke="#b99372" stroke-width="1.2" stroke-linecap="round" opacity=".75"><path d="m71 148-16-2m16 9-18 3m116-10 16-2m-16 9 18 3"/></g>
+            <g class="wardrobe glasses glasses-round" fill="none" stroke="#79624e" stroke-width="2.5" stroke-linecap="round">
+              <circle cx="91" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13"/><circle cx="149" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13"/>
+              <path d="M107 138q13-7 26 0m-58-3-10-4m100 4 10-4"/>
+              <path d="m81 132 5-4m53 4 5-4" stroke="#fffdf0" stroke-opacity=".9" stroke-width="2"/>
+            </g>
+            <g class="wardrobe glasses glasses-sun" stroke="#635249" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path class="sun-lens" d="M74 130 Q91 125 108 130 L105 146 Q103 153 91 153 Q78 153 77 145Z" fill="#637b78" fill-opacity=".86"/>
+              <path class="sun-lens" d="M132 130 Q149 125 166 130 L163 145 Q162 153 149 153 Q137 153 135 146Z" fill="#637b78" fill-opacity=".86"/>
+              <path d="M108 133q12-5 24 0m-58 0-10-4m102 4 10-4" fill="none"/>
+              <path d="m81 133 11-2m47 2 11-2" fill="none" stroke="#e5f1de" stroke-opacity=".75" stroke-width="1.5"/>
+            </g>
+            <g class="wardrobe glasses glasses-heart" fill="#f3bbca" fill-opacity=".14" stroke="#bc7182" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M91 154 C72 143 73 131 81 129 Q88 128 91 135 Q95 127 102 129 C113 133 107 145 91 154Z"/>
+              <path d="M149 154 C130 143 131 131 139 129 Q146 128 149 135 Q153 127 160 129 C171 133 165 145 149 154Z"/>
+              <path d="M108 135q12-5 24 0m-57 1-11-5m101 5 11-5" fill="none"/>
+            </g>
             <g class="arm arm-left"><path d="M62 174 C66 163 76 162 81 170 C86 178 78 188 71 185 C68 184 65 181 62 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m70 174 3 2m-5 2 3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
             <g class="arm arm-right"><path d="M178 174 C174 163 164 162 159 170 C154 178 162 188 169 185 C172 184 175 181 178 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m170 174-3 2m5 2-3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
             <g class="snack"><path d="M120 173 C110 179 109 190 120 199 C131 190 130 179 120 173Z" fill="url(#seed)" stroke="#765b45" stroke-width="1.3"/><path d="m120 177v17m-3-14-1 10m7-10 1 10" stroke="#e7d4ae" stroke-width="1.2" stroke-linecap="round"/><path d="M105 185q7-6 10 0m20 0q-7-6-10 0" fill="none" stroke="#f1c2a6" stroke-width="7" stroke-linecap="round"/></g>
+            <g class="wardrobe hat hat-beanie" stroke-linecap="round" stroke-linejoin="round">
+              <circle class="fabric-light" cx="121" cy="51" r="10" stroke-width="1.5"/>
+              <path class="fabric" d="M82 84 Q84 57 104 54 Q122 48 141 55 Q158 60 161 84Z" stroke-width="1.8"/>
+              <path class="fabric-light" d="M82 81 Q121 74 161 81 L162 94 Q120 99 80 94Z" stroke-width="1.8"/>
+              <path class="fabric-outline" d="m89 83-1 10m10-11-1 11m10-12-1 12m11-12v12m10-12 1 12m10-11 1 11m9-10 1 10" fill="none" stroke-width="1.3" opacity=".55"/>
+            </g>
+            <g class="wardrobe hat hat-cap" stroke-linecap="round" stroke-linejoin="round">
+              <path class="fabric" d="M82 86 Q82 59 108 55 Q137 50 151 66 L158 86Z" stroke-width="1.8"/>
+              <path class="fabric-dark" d="M112 84 Q143 78 174 87 Q181 90 173 95 Q153 102 122 95Z" stroke-width="1.7"/>
+              <path class="fabric-outline" d="M113 56q19 9 20 27m-47 2q34-5 66 1" fill="none" stroke-width="1.4" opacity=".6"/>
+              <circle class="fabric-light" cx="110" cy="54" r="3"/>
+              <path d="M106 69q-8 5 0 12q8-7 0-12Z" fill="#fff4dc"/>
+            </g>
+            <g class="wardrobe hat hat-crown" stroke="#c29a4d" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M84 86 L82 58 L100 71 L120 49 L140 71 L158 58 L156 86Z" fill="#f2ce79"/>
+              <path d="M84 84q36 8 72 0v10q-36 8-72 0Z" fill="#ffe4a0"/>
+              <circle cx="82" cy="57" r="3.5" fill="#fff2c1"/><circle cx="120" cy="48" r="4" fill="#fff2c1"/><circle cx="158" cy="57" r="3.5" fill="#fff2c1"/>
+              <path d="m120 69 5 7-5 7-5-7Z" fill="#e7989f" stroke="#c97d84" stroke-width="1"/>
+              <circle cx="98" cy="82" r="2" fill="#d8af56"/><circle cx="142" cy="82" r="2" fill="#d8af56"/>
+            </g>
+            <g class="wardrobe hat hat-flower" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M149 85q-14-6-18 4q11 8 22-1m4-5q14-8 20 1q-6 12-21 6" fill="#a5ba8d" stroke="#7f986a" stroke-width="1.4"/>
+              <g fill="#f3b9bc" stroke="#d898a0" stroke-width="1.4"><ellipse cx="155" cy="65" rx="8" ry="11"/><ellipse cx="164" cy="72" rx="11" ry="8"/><ellipse cx="161" cy="83" rx="8" ry="11" transform="rotate(-26 161 83)"/><ellipse cx="149" cy="84" rx="8" ry="11" transform="rotate(26 149 84)"/><ellipse cx="145" cy="73" rx="11" ry="8"/></g>
+              <circle cx="155" cy="76" r="7" fill="#f5d888" stroke="#cca95b" stroke-width="1.4"/>
+              <circle cx="153" cy="74" r="1.2" fill="#fff4c4"/>
+            </g>
+            <g class="wardrobe hat hat-cowboy" stroke="#a07851" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M83 85 L90 57 Q96 50 107 57 Q119 65 132 57 Q145 49 151 57 L159 85Z" fill="#dcb98a"/>
+              <path d="M84 79q36 9 74 0l2 10q-40 9-78-1Z" fill="#a97b59"/>
+              <path d="M65 82 Q76 94 92 88 Q121 82 150 88 Q165 94 178 82 Q182 95 164 99 Q121 108 79 99 Q61 96 65 82Z" fill="#ebcfa5"/>
+              <path d="M98 59q5 12 12 14m34-14q-4 11-10 14" fill="none" stroke="#f7e1bb" stroke-width="2"/>
+              <path d="m121 80 2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2-3.8-3.7 5.3-.8Z" fill="#f8df9e" stroke="#caa763" stroke-width="1"/>
+            </g>
           </g>
         </g>
       </g>
