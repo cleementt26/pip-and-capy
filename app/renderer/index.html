@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>Pip · votre petit compagnon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="demo-shell" aria-label="Présentation de Pip">
+    <div class="demo-copy">
+      <div class="eyebrow"><span></span> UN PETIT PEU DE DOUCEUR</div>
+      <h1>Fais une place<br>à <span>Pip.</span></h1>
+      <p>Un petit hamster, une grande compagnie.<br>Il explore ton bureau et fond sous les caresses.</p>
+      <div class="demo-tip"><span>♡</span> Passe ta souris sur lui pour le caresser.</div>
+      <div class="demo-controls" aria-label="Essayer les animations">
+        <button type="button" data-mode="idle">Au calme</button>
+        <button type="button" data-mode="walk">Balade</button>
+        <button type="button" data-mode="sleep">Dodo</button>
+        <button type="button" id="demo-feed">Une graine</button>
+      </div>
+      <div class="demo-platforms">WINDOWS & MAC <span>·</span> TOUT DOUX, TOUT SIMPLEMENT</div>
+    </div>
+    <div class="demo-scene" aria-hidden="true">
+      <span class="scene-spark spark-one">✦</span><span class="scene-spark spark-two">✦</span>
+      <div class="scene-circle"></div>
+      <div class="scene-floor"></div>
+      <div class="scene-caption">BONJOUR, TOI ♡</div>
+    </div>
+  </main>
+  <div class="pet-world" id="pet-world" data-mode="idle" data-direction="1" role="img" aria-label="Pip, un petit hamster">
+    <svg class="pet-art" id="hamster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" aria-hidden="true">
+      <defs>
+        <radialGradient id="fur" cx="42%" cy="28%" r="77%"><stop offset="0" stop-color="#f4cea0"/><stop offset="0.55" stop-color="#e8b47e"/><stop offset="1" stop-color="#d7985e"/></radialGradient>
+        <radialGradient id="cream" cx="47%" cy="30%" r="80%"><stop offset="0" stop-color="#fff9e9"/><stop offset="0.82" stop-color="#fff0d3"/><stop offset="1" stop-color="#f3d9b7"/></radialGradient>
+        <radialGradient id="ear" cx="50%" cy="40%" r="65%"><stop stop-color="#f6b3ad"/><stop offset="1" stop-color="#e49c93"/></radialGradient>
+        <radialGradient id="blush"><stop stop-color="#e99694" stop-opacity="0.65"/><stop offset="1" stop-color="#eea5a2" stop-opacity="0"/></radialGradient>
+        <radialGradient id="shadow"><stop stop-color="#6d4b3c" stop-opacity="0.17"/><stop offset="1" stop-color="#6d4b3c" stop-opacity="0"/></radialGradient>
+        <linearGradient id="heart" x1="0" y1="0" x2="0.7" y2="1"><stop stop-color="#f6a5a8"/><stop offset="1" stop-color="#e58292"/></linearGradient>
+        <linearGradient id="seed" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#795c47"/><stop offset="0.48" stop-color="#c3a280"/><stop offset="1" stop-color="#816046"/></linearGradient>
+      </defs>
+      <ellipse class="ground-shadow" cx="120" cy="216" rx="69" ry="12" fill="url(#shadow)"/>
+      <g class="hamster-motion">
+        <g class="body-turn">
+          <g class="foot foot-left"><path d="M77 200 C67 202 65 211 71 216 C77 220 96 218 99 213 L97 201Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8"/><path d="M77 210l-1 5m7-5v6" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round"/></g>
+          <g class="foot foot-right"><path d="M143 201 L141 213 C145 218 162 220 169 216 C175 211 171 203 162 200Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8"/><path d="M157 210v6m7-6 1 5" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round"/></g>
+          <g class="hamster-body">
+            <g class="ear ear-left"><path d="M63 105 C45 92 49 67 65 63 C82 57 96 75 94 88Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2"/><path d="M65 91 C54 83 58 72 66 71 C75 69 82 77 82 85Z" fill="url(#ear)"/><path d="M60 70 C63 66 68 65 72 67" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round"/></g>
+            <g class="ear ear-right"><path d="M147 88 C145 75 158 58 175 63 C191 68 195 91 178 105Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2"/><path d="M158 85 C158 76 166 69 175 72 C183 76 185 84 175 92Z" fill="url(#ear)"/><path d="M169 67 C175 66 179 69 181 73" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round"/></g>
+            <path class="fur-body" d="M120 77 C153 76 177 93 184 123 C189 140 191 148 189 163 C197 182 187 203 171 210 C151 221 88 221 68 210 C51 202 44 182 51 162 C48 146 52 134 56 120 C64 92 87 77 120 77Z" fill="url(#fur)" stroke="#b98559" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M66 117 C75 91 99 83 119 83" fill="none" stroke="#ffe3ba" stroke-width="3.5" stroke-linecap="round" opacity=".65"/>
+            <path d="M89 116 C98 111 109 119 120 119 C132 119 143 111 153 116 C167 122 166 135 173 143 C188 162 182 194 167 203 C147 215 92 215 72 203 C55 192 52 165 68 145 C76 135 75 122 89 116Z" fill="url(#cream)"/>
+            <path class="fur-tuft" d="M109 80 C112 75 116 73 117 77 C120 71 123 72 123 77 C128 74 131 76 129 80" fill="#f2c697" stroke="#c89564" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <ellipse cx="72" cy="157" rx="24" ry="21" fill="url(#blush)"/><ellipse cx="168" cy="157" rx="24" ry="21" fill="url(#blush)"/>
+            <g class="cheek-freckles" fill="#d7a18a" opacity=".65"><circle cx="72" cy="153" r="1.1"/><circle cx="77" cy="157" r="1"/><circle cx="70" cy="159" r=".9"/><circle cx="168" cy="153" r="1.1"/><circle cx="163" cy="157" r="1"/><circle cx="170" cy="159" r=".9"/></g>
+            <g class="eyes-open">
+              <g class="eye-left"><ellipse cx="91" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="89.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="93" cy="142" r=".9" fill="#cbb5a2"/></g>
+              <g class="eye-right"><ellipse cx="149" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="147.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="151" cy="142" r=".9" fill="#cbb5a2"/></g>
+            </g>
+            <g class="eyes-happy" fill="none" stroke="#6f4b3e" stroke-width="2.7" stroke-linecap="round"><path d="M84 141 Q91 133 98 141"/><path d="M142 141 Q149 133 156 141"/></g>
+            <g class="eyes-sleep" fill="none" stroke="#6f4b3e" stroke-width="2.5" stroke-linecap="round"><path d="M84 140 Q91 146 98 140"/><path d="M142 140 Q149 146 156 140"/></g>
+            <g class="muzzle"><ellipse cx="111" cy="155" rx="13" ry="9" fill="#fff9ed"/><ellipse cx="129" cy="155" rx="13" ry="9" fill="#fff9ed"/><path d="M115 150 C115 146 125 146 125 150 C124 153 121 155 120 155 C119 155 116 153 115 150Z" fill="#b97e76"/><path d="M120 154v4m-8-1q4 7 8 1q4 6 8-1" stroke="#926653" stroke-width="1.7" fill="none" stroke-linecap="round"/><path class="smile" d="M116 161q4 6 8 0" fill="#dda297"/></g>
+            <g class="whiskers" fill="none" stroke="#b99372" stroke-width="1.2" stroke-linecap="round" opacity=".75"><path d="m71 148-16-2m16 9-18 3m116-10 16-2m-16 9 18 3"/></g>
+            <g class="arm arm-left"><path d="M62 174 C66 163 76 162 81 170 C86 178 78 188 71 185 C68 184 65 181 62 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m70 174 3 2m-5 2 3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
+            <g class="arm arm-right"><path d="M178 174 C174 163 164 162 159 170 C154 178 162 188 169 185 C172 184 175 181 178 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m170 174-3 2m5 2-3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
+            <g class="snack"><path d="M120 173 C110 179 109 190 120 199 C131 190 130 179 120 173Z" fill="url(#seed)" stroke="#765b45" stroke-width="1.3"/><path d="m120 177v17m-3-14-1 10m7-10 1 10" stroke="#e7d4ae" stroke-width="1.2" stroke-linecap="round"/><path d="M105 185q7-6 10 0m20 0q-7-6-10 0" fill="none" stroke="#f1c2a6" stroke-width="7" stroke-linecap="round"/></g>
+          </g>
+        </g>
+      </g>
+      <g class="heart heart-one" fill="url(#heart)"><path d="M120 54 C104 44 106 35 113 36 C117 36 120 39 120 42 C121 36 127 33 132 37 C139 44 129 50 120 54Z"/></g>
+      <g class="heart heart-two" fill="#f1b6b7"><path d="M71 70 C61 63 62 57 67 57 C70 57 72 59 72 61 C73 57 77 56 80 59 C83 63 77 67 71 70Z"/></g>
+      <g class="heart heart-three" fill="#eda4ad"><path d="M173 59 C165 53 166 48 170 48 C173 48 174 50 174 51 C175 48 178 47 180 49 C184 53 178 56 173 59Z"/></g>
+      <g class="sleep-symbols" fill="#ad927d" font-family="system-ui, sans-serif" font-weight="600"><text x="165" y="74" font-size="14">z</text><text x="182" y="56" font-size="19">z</text></g>
+    </svg>
+  </div>
+  <script src="hamster.js"></script>
+</body>
+</html>
