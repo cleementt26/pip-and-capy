@@ -10,13 +10,54 @@ app.setName('Pip Hamster');
 const singleInstance = app.requestSingleInstanceLock();
 if (!singleInstance) app.quit();
 let pet, tray, world, ticker, lastTick, ignoring, menuOpen = false, settings = {}, settingsPath;
+const APPEARANCE_OPTIONS = {
+  hat: [['none', 'Sans couvre-chef'], ['beanie', 'Bonnet'], ['cap', 'Casquette'], ['crown', 'Couronne'], ['flower', 'Fleur'], ['cowboy', 'Chapeau de cowboy']],
+  glasses: [['none', 'Sans lunettes'], ['round', 'Rondes'], ['sun', 'De soleil'], ['heart', 'En cœur']],
+  outfit: [['none', 'Sans vêtement'], ['hoodie', 'Sweat à capuche'], ['mariniere', 'Marinière'], ['scarf', 'Écharpe'], ['overalls', 'Salopette']],
+  color: [['sage', 'Vert sauge'], ['blue', 'Bleu'], ['rose', 'Rose'], ['lavender', 'Lilas'], ['orange', 'Orange']]
+};
+function normalizeAppearance(input) {
+  const source = input && typeof input === 'object' && !Array.isArray(input) ? input : {};
+  return Object.fromEntries(Object.entries(APPEARANCE_OPTIONS).map(([key, options]) => [key,
+    options.some(([id]) => source[key] === id) ? source[key] : options[0][0]
+  ]));
+}
+let appearance = normalizeAppearance();
+function setAppearance(next) {
+  appearance = normalizeAppearance(next);
+  world.hat = appearance.hat;
+  saveSettings();
+}
+function appearanceCategory(key, label) {
+  return { label, submenu: APPEARANCE_OPTIONS[key].map(([id, title]) => ({
+    label: title, type: 'radio', checked: appearance[key] === id,
+    click: () => setAppearance({ ...appearance, [key]: id })
+  })) };
+}
+function appearanceMenu() {
+  return { label: 'Personnaliser Pip', submenu: [
+    appearanceCategory('hat', 'Couvre-chefs'),
+    appearanceCategory('glasses', 'Lunettes'),
+    appearanceCategory('outfit', 'Vêtements'),
+    appearanceCategory('color', 'Couleur de la tenue'),
+    { type: 'separator' },
+    { label: 'Surprends-moi', click: () => {
+      const next = Object.fromEntries(Object.entries(APPEARANCE_OPTIONS).map(([key, options]) => {
+        const choices = key === 'hat' || key === 'outfit' ? options.slice(1) : options;
+        return [key, choices[Math.floor(Math.random() * choices.length)][0]];
+      }));
+      setAppearance(next);
+    } },
+    { label: 'Retirer les accessoires', click: () => setAppearance() }
+  ] };
+}
 
 function saveSettings() {
-  settings = { behaviorVersion: 2, scale: world.scale, roam: world.roam, speed: world.speed, alwaysOnTop: pet.isAlwaysOnTop() };
+  settings = { behaviorVersion: 2, scale: world.scale, roam: world.roam, speed: world.speed, alwaysOnTop: pet.isAlwaysOnTop(), appearance: { ...appearance } };
   try { fs.mkdirSync(path.dirname(settingsPath), { recursive: true }); fs.writeFileSync(settingsPath, JSON.stringify(settings)); } catch { /* Pet still works on a read-only profile. */ }
 }
 function publish(state) {
-  if (pet && !pet.isDestroyed() && !pet.webContents.isLoading()) pet.webContents.send('pet:state', state);
+  if (pet && !pet.isDestroyed() && !pet.webContents.isLoading()) pet.webContents.send('pet:state', { ...state, appearance: { ...appearance } });
 }
 function setInput(ignore) {
   if (ignore !== ignoring && pet && !pet.isDestroyed()) {
@@ -39,7 +80,7 @@ function tick() {
 }
 function showPet() { pet.showInactive(); }
 function help() {
-  dialog.showMessageBox({ type: 'info', title: 'Pip, ton petit hamster', message: 'Un peu de douceur sur ton bureau.', detail: 'Passe doucement la souris sur Pip : il ferme les yeux.\n\n• Maintiens le clic gauche pour le déplacer.\n• Double-clique pour lui donner une graine.\n• Clic droit : taille, promenade, sieste et quitter.\n• L’icône près de l’horloge permet de le retrouver.\n\nPip fonctionne hors ligne et ne demande aucun compte.', buttons: ['Compris !'] });
+  dialog.showMessageBox({ type: 'info', title: 'Pip, ton petit hamster', message: 'Un peu de douceur sur ton bureau.', detail: 'Passe doucement la souris sur Pip : il ferme les yeux.\n\n• Maintiens le clic gauche pour le déplacer.\n• Double-clique pour lui donner une graine.\n• Clic droit > Personnaliser Pip : couvre-chefs, lunettes et vêtements.\n• Le menu propose aussi taille, promenade, sieste et quitter.\n• L’icône près de l’horloge permet de le retrouver.\n\nSes accessoires sont mémorisés. Pip fonctionne hors ligne et ne demande aucun compte.', buttons: ['Compris !'] });
 }
 function menu() {
   const displays = screen.getAllDisplays();
@@ -49,6 +90,7 @@ function menu() {
     { label: 'Lui donner une graine', click: () => world.feed(performance.now()) },
     { label: world.manualSleep ? 'Réveiller Pip' : 'Faire une sieste', click: () => { world.manualSleep = !world.manualSleep; world.ignoreTouchUntilLeave = world.manualSleep; world.petUntil = 0; world.feedUntil = 0; } },
     { label: 'Pause de la promenade', type: 'checkbox', checked: world.paused, click: item => { world.paused = item.checked; } },
+    appearanceMenu(),
     { label: 'Taille', submenu: [['Tout petit', 0.55], ['Petit', 0.75], ['Grand câlin', 1]].map(([label, scale]) => ({ label, type: 'radio', checked: world.scale === scale, click: () => { world.setScale(scale); saveSettings(); } })) },
     { label: 'Promenade', submenu: [
       { label: 'En bas de l’écran', type: 'radio', checked: !world.roam, click: () => { world.setRoam(false); saveSettings(); } },
@@ -87,9 +129,12 @@ if (singleInstance) app.whenReady().then(() => {
   });
   settingsPath = path.join(app.getPath('userData'), 'preferences.json');
   try { settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8')); } catch { settings = {}; }
+  if (!settings || typeof settings !== 'object' || Array.isArray(settings)) settings = {};
+  appearance = normalizeAppearance(settings.appearance);
   const scale = [0.55, 0.75, 1].includes(settings.scale) ? settings.scale : 0.75;
   const roam = settings.behaviorVersion === 2 ? settings.roam !== false : true;
   world = new PetWorld(screen.getPrimaryDisplay().workArea, { scale, roam, speed: [22, 34, 52].includes(settings.speed) ? settings.speed : 34 });
+  world.hat = appearance.hat;
   pet = new BrowserWindow({ ...world.bounds(), title: 'Pip Hamster', transparent: true, backgroundColor: '#00000000', frame: false, hasShadow: false, resizable: false, maximizable: false, minimizable: false, fullscreenable: false, skipTaskbar: true, focusable: false, alwaysOnTop: settings.alwaysOnTop !== false, show: false, acceptFirstMouse: true, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true, backgroundThrottling: false, devTools: !app.isPackaged } });
   pet.setMenu(null);
   saveSettings();

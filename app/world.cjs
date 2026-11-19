@@ -26,6 +26,7 @@ class PetWorld {
     this.nextChange = 0;
     this.naturalMode = 'walk';
     this.affection = 0;
+    this.hat = 'none';
     this.phase = 0;
     this.clamp();
     this.targetX = this.x;
@@ -75,7 +76,10 @@ class PetWorld {
     const x = (cursor.x - Math.round(this.x)) / this.scale;
     const y = (cursor.y - Math.round(this.y)) / this.scale;
     const ellipse = (cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
-    return ellipse(120, 145, 77, 69) || ellipse(78, 86, 25, 25) || ellipse(162, 86, 25, 25);
+    const body = ellipse(120, 145, 77, 69) || ellipse(78, 86, 25, 25) || ellipse(162, 86, 25, 25);
+    const hat = this.hat === 'flower' ? ellipse(154, 75, 23, 23)
+      : this.hat !== 'none' && ellipse(120, 76, 61, 37);
+    return body || hat;
   }
   startDrag(cursor) {
     if (!this.hitTest(cursor)) return false;
