@@ -86,16 +86,19 @@ async function boot(savedSettings) {
     net: { fetch: url => { state.fetches.push(url); return Promise.resolve({ status: 200 }); } }
   };
   const dirname = path.resolve(__dirname, '../app');
+  class DeterministicWorld extends PetWorld {
+    constructor(area, options) { super(area, { ...options, random: () => 0.25 }); }
+  }
   const sandbox = {
     require: name => {
       if (name === 'electron') return electron;
-      if (name === './world.cjs') return { PetWorld };
+      if (name === './world.cjs') return { PetWorld: DeterministicWorld };
       if (name === 'node:fs') return {
         readFileSync() { if (savedSettings !== undefined) return JSON.stringify(savedSettings); throw new Error('No saved preferences'); },
         mkdirSync() {},
         writeFileSync(filename, content) { state.writes.push({ filename, content: JSON.parse(content) }); }
       };
-      return require(name);
+      return require(name.startsWith('./') ? path.resolve(dirname, name) : name);
     },
     __dirname: dirname,
     process: { platform: 'win32' },
@@ -114,6 +117,25 @@ async function boot(savedSettings) {
   };
   state.action = (action, event = { sender: state.pet.webContents, senderFrame: state.pet.webContents.mainFrame }) => ipcMain.emit('pet:action', event, action);
   return state;
+}
+
+const plain = value => JSON.parse(JSON.stringify(value));
+const defaultAppearance = { hat: 'none', glasses: 'none', outfit: 'none', color: 'sage' };
+function customization(state) {
+  state.popup?.callback();
+  state.tray.emit('right-click');
+  const menu = state.menus.at(-1).items.find(item => item.label === 'Personnaliser Pip');
+  assert.ok(menu, 'the native menu exposes customization');
+  return menu.submenu;
+}
+function selectAppearance(state, category, label) {
+  const submenu = customization(state).find(item => item.label === category)?.submenu;
+  assert.ok(submenu, `category ${category} exists`);
+  const option = submenu.find(item => item.label === label);
+  assert.ok(option, `option ${label} exists`);
+  assert.equal(option.type, 'radio');
+  option.click();
+  state.popup.callback();
 }
 
 test('desktop startup uses a transparent, unfocused, sandboxed local window', async () => {
@@ -202,4 +224,76 @@ test('startup migrates the old bottom-edge default once and preserves new choice
   assert.equal(state.writes.at(-1).content.roam, true);
   walkMenu.submenu.find(item => item.label === 'En bas de l’écran').click();
   assert.equal(state.writes.at(-1).content.roam, false);
+});
+
+test('saved accessories restore and are forwarded to the renderer with behavior settings intact', async () => {
+  const appearance = { hat: 'crown', glasses: 'round', outfit: 'hoodie', color: 'blue' };
+  const state = await boot({ behaviorVersion: 2, roam: false, scale: 0.55, speed: 22, alwaysOnTop: false, appearance });
+  assert.deepEqual(state.writes.at(-1).content.appearance, appearance);
+  assert.equal(state.writes.at(-1).content.roam, false);
+  assert.equal(state.writes.at(-1).content.scale, 0.55);
+  assert.equal(state.writes.at(-1).content.speed, 22);
+  assert.equal(state.writes.at(-1).content.alwaysOnTop, false);
+  assert.deepEqual(plain(state.tick().appearance), appearance);
+  const categories = customization(state);
+  assert.equal(categories.find(item => item.label === 'Couvre-chefs').submenu.find(item => item.label === 'Couronne').checked, true);
+  assert.equal(categories.find(item => item.label === 'Lunettes').submenu.find(item => item.label === 'Rondes').checked, true);
+  state.popup.callback();
+});
+
+test('invalid appearance preferences normalize per category without leaking extra keys', async () => {
+  const state = await boot({ appearance: { hat: '<script>', glasses: 'heart', outfit: 27, color: 'neon', injected: true } });
+  const expected = { ...defaultAppearance, glasses: 'heart' };
+  assert.deepEqual(state.writes.at(-1).content.appearance, expected);
+  assert.deepEqual(plain(state.tick().appearance), expected);
+  for (const appearance of [null, [], 'not-an-appearance']) {
+    const invalid = await boot({ appearance });
+    assert.deepEqual(plain(invalid.tick().appearance), defaultAppearance);
+  }
+  const invalidSettings = await boot(null);
+  assert.deepEqual(plain(invalidSettings.tick().appearance), defaultAppearance);
+});
+
+test('choosing accessories composes the look and saves it without clearing movement preferences', async () => {
+  const state = await boot({ behaviorVersion: 2, roam: false, scale: 1, speed: 52 });
+  selectAppearance(state, 'Couvre-chefs', 'Bonnet');
+  selectAppearance(state, 'Lunettes', 'Rondes');
+  selectAppearance(state, 'Vêtements', 'Sweat à capuche');
+  selectAppearance(state, 'Couleur de la tenue', 'Rose');
+  selectAppearance(state, 'Couvre-chefs', 'Couronne');
+  const expected = { hat: 'crown', glasses: 'round', outfit: 'hoodie', color: 'rose' };
+  assert.deepEqual(state.writes.at(-1).content.appearance, expected);
+  assert.deepEqual(plain(state.tick().appearance), expected);
+  assert.equal(state.writes.at(-1).content.roam, false);
+  assert.equal(state.writes.at(-1).content.scale, 1);
+  assert.equal(state.writes.at(-1).content.speed, 52);
+});
+
+test('random looks use supported accessories and reset restores Pip while keeping behavior', async () => {
+  const state = await boot({ behaviorVersion: 2, roam: false, speed: 22 });
+  customization(state).find(item => item.label === 'Surprends-moi').click();
+  state.popup.callback();
+  const look = state.writes.at(-1).content.appearance;
+  assert.ok(['beanie', 'cap', 'crown', 'flower', 'cowboy'].includes(look.hat));
+  assert.ok(['none', 'round', 'sun', 'heart'].includes(look.glasses));
+  assert.ok(['hoodie', 'mariniere', 'scarf', 'overalls'].includes(look.outfit));
+  assert.ok(['sage', 'blue', 'rose', 'lavender', 'orange'].includes(look.color));
+  customization(state).find(item => item.label === 'Retirer les accessoires').click();
+  state.popup.callback();
+  assert.deepEqual(state.writes.at(-1).content.appearance, defaultAppearance);
+  assert.deepEqual(plain(state.tick().appearance), defaultAppearance);
+  assert.equal(state.writes.at(-1).content.roam, false);
+  assert.equal(state.writes.at(-1).content.speed, 22);
+});
+
+test('a customized Pip follows the same wandering behavior as an unadorned Pip', async () => {
+  const normal = await boot();
+  const dressed = await boot({ appearance: { hat: 'cowboy', glasses: 'sun', outfit: 'overalls', color: 'orange' } });
+  for (let i = 0; i < 600; i++) {
+    const normalState = normal.tick();
+    const dressedState = dressed.tick();
+    assert.deepEqual(dressed.pet.bounds, normal.pet.bounds);
+    assert.equal(dressedState.mode, normalState.mode);
+    assert.equal(dressedState.direction, normalState.direction);
+  }
 });

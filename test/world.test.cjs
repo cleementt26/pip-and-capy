@@ -44,6 +44,23 @@ test('transparent corners do not catch input; face and ears do at all menu sizes
   }
 });
 
+test('visible hats can be caressed and dragged while their absent space stays click-through', () => {
+  const pet = make();
+  const b = pet.bounds();
+  const aboveHead = { x: b.x + 120 * pet.scale, y: b.y + 50 * pet.scale };
+  assert.equal(pet.hitTest(aboveHead), false);
+  pet.hat = 'beanie';
+  assert.equal(pet.hitTest(aboveHead), true);
+  assert.equal(step(pet, 100, aboveHead).mode, 'pet');
+  assert.equal(pet.startDrag(aboveHead), true);
+  pet.endDrag(200);
+  pet.hat = 'flower';
+  const blossom = { x: b.x + 154 * pet.scale, y: b.y + 55 * pet.scale };
+  assert.equal(pet.hitTest(blossom), true);
+  pet.hat = 'none';
+  assert.equal(pet.hitTest(blossom), false);
+});
+
 test('hovering pets Pip immediately and stops walking, with a short release grace', () => {
   const pet = make();
   step(pet, 0);
