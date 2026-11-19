@@ -18,7 +18,7 @@ const targets = [
 ];
 
 const commonReadme = `PIP — TON PETIT HAMSTER DE BUREAU
-Version 1.1.0 · Créé pour Clément
+Version 1.2.0 · Créé pour Clément
 
 COMMENT JOUER
 • Pip se promène partout sur l’écran dès le lancement, dans toutes les directions.
@@ -26,6 +26,8 @@ COMMENT JOUER
 • Maintiens le clic gauche pour le déplacer.
 • Double-clique pour lui donner une graine.
 • Clic droit sur Pip : taille, promenade, sieste et quitter.
+• Clic droit > Personnaliser Pip : couvre-chefs, lunettes, vêtements et couleurs.
+• Ses accessoires sont combinables et mémorisés entre les lancements.
 • Son icône près de l’horloge permet de retrouver le menu.
 
 Pip fonctionne hors ligne, sans compte, publicité ni suivi.
