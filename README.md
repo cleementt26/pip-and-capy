@@ -4,6 +4,11 @@ Une petite application de bureau pour Windows et macOS, créée pour Clément.
 Pip est un personnage original : il se promène, cligne des yeux, respire,
 fait des siestes et ferme les yeux quand on le caresse avec la souris.
 
+Version 1.2 : habille Pip depuis **clic droit > Personnaliser Pip**. Les
+couvre-chefs, lunettes, vêtements et couleurs sont combinables et mémorisés.
+
+![Quelques tenues de Pip](Pip-personnalisation.png)
+
 Version 1.1 : Pip explore toute la surface de l'écran par défaut, vers la gauche,
 la droite, le haut et le bas. Il choisit des destinations aléatoires et garde sa
 destination pendant ses pauses, pour visiter aussi les bords. Les anciennes
@@ -11,7 +16,8 @@ préférences sont mises à jour une fois pour activer cette promenade libre.
 
 ## Lancer l'application
 
-Télécharge l'archive correspondant à ton ordinateur et décompresse-la.
+[Télécharger les applications Windows et Mac](https://github.com/cleementt26/pip-hamster/releases/latest),
+puis décompresser l'archive correspondant à ton ordinateur.
 
 | Ordinateur | Archive | Premier lancement |
 | --- | --- | --- |
@@ -40,12 +46,24 @@ sécurité. Le fichier `LISEZ-MOI.txt` de chaque archive contient les détails.
 - **Déplacer :** maintenir le clic gauche et faire glisser Pip.
 - **Nourrir :** double-cliquer pour lui donner une graine de tournesol.
 - **Régler :** clic droit sur Pip ou clic sur son icône près de l'horloge.
+- **Personnaliser :** clic droit > Personnaliser Pip. Choisir un couvre-chef,
+  des lunettes, un vêtement et sa couleur ; chaque catégorie reste indépendante.
 - **Quitter :** choisir « Quitter Pip » dans ce menu.
 
 Le menu propose trois tailles, trois vitesses, une promenade partout par défaut
 ou au bas de l'écran, une pause, une sieste et le choix d'un écran. Le démarrage à la
 connexion est facultatif et désactivé par défaut. Taille, vitesse, zone de
 promenade et premier plan sont mémorisés dans les préférences locales.
+
+| Catégorie | Choix |
+| --- | --- |
+| Couvre-chefs | Bonnet, casquette, couronne, fleur, chapeau de cowboy, aucun |
+| Lunettes | Rondes, de soleil, en cœur, aucune |
+| Vêtements | Sweat à capuche, marinière, écharpe, salopette, aucun |
+| Couleur de la tenue | Vert sauge, bleu, rose, lilas, orange |
+
+Le menu **Surprends-moi** compose une tenue aléatoire. **Retirer les accessoires**
+rend à Pip son apparence d'origine. Tout est inclus et fonctionne hors ligne.
 
 Pip passe au-dessus des fenêtres par défaut. Les coins transparents laissent
 les clics atteindre les applications placées derrière. Une application en
