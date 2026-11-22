@@ -17,17 +17,18 @@ const targets = [
   { id: 'darwin-x64', platform: 'darwin', arch: 'x64', filename: 'Pip-Mac-Intel.zip', aliases: ['mac-x64', 'mac-intel', 'intel'] },
 ];
 
-const commonReadme = `PIP — TON PETIT HAMSTER DE BUREAU
-Version 1.2.0 · Créé pour Clément
+const commonReadme = `PIP & CAPY — TES COMPAGNONS DE BUREAU
+Version 1.3.0 · Créé pour Clément
 
 COMMENT JOUER
-• Pip se promène partout sur l’écran dès le lancement, dans toutes les directions.
-• Passe doucement la souris sur Pip pour le caresser : il ferme les yeux.
+• Au lancement, choisis Pip le hamster ou Capy le capybara.
+• Ton compagnon se promène partout sur l’écran, dans toutes les directions.
+• Passe doucement la souris sur lui pour le caresser : il ferme les yeux.
 • Maintiens le clic gauche pour le déplacer.
 • Double-clique pour lui donner une graine.
-• Clic droit sur Pip : taille, promenade, sieste et quitter.
-• Clic droit > Personnaliser Pip : couvre-chefs, lunettes, vêtements et couleurs.
-• Ses accessoires sont combinables et mémorisés entre les lancements.
+• Clic droit : personnalisation, taille, promenade, sieste et quitter.
+• « Choisir mon compagnon… » permet de changer d’animal.
+• Les accessoires sont mémorisés séparément pour chacun.
 • Son icône près de l’horloge permet de retrouver le menu.
 
 Pip fonctionne hors ligne, sans compte, publicité ni suivi.
@@ -41,7 +42,7 @@ macOS doit encore être confirmé sur un ordinateur de chaque système.
 
 function readmeFor(target) {
   if (target.platform === 'win32') {
-    return `${commonReadme}\nWINDOWS 10 / 11 — 64 BITS\n1. Fais clic droit sur le ZIP, puis « Extraire tout ».\n2. Ouvre le dossier extrait et lance « Pip.exe ».\n3. Pour fermer Pip, clic droit sur le hamster > Quitter Pip.\n\nLe programme n’est pas signé par un certificat éditeur. Windows peut donc\nafficher un avertissement lors du premier lancement.\n`;
+    return `${commonReadme}\nWINDOWS 10 / 11 — 64 BITS\n1. Fais clic droit sur le ZIP, puis « Extraire tout ».\n2. Ouvre le dossier extrait et lance « Pip.exe ».\n3. Pour fermer Pip, clic droit sur le compagnon > Quitter Pip.\n\nLe programme n’est pas signé par un certificat éditeur. Windows peut donc\nafficher un avertissement lors du premier lancement.\n`;
   }
   const chip = target.arch === 'arm64' ? 'Apple Silicon (M1, M2, M3, M4 et suivants)' : 'Intel';
   return `${commonReadme}\nMAC — ${chip}\nmacOS Ventura 13 ou version plus récente.\n1. Double-clique sur le ZIP pour le décompresser.\n2. Au premier lancement uniquement, ouvre « Ouvrir Pip.command » qui doit\n   rester à côté de « Pip.app ». Le Terminal explique la préparation et ouvre Pip.\n3. Ensuite, tu peux déplacer « Pip.app » dans Applications et l’ouvrir normalement.\n4. Son menu se trouve dans la barre des menus.\n\nCette application n’est ni signée par un éditeur Apple ni notariée par Apple.\nLe lanceur retire la quarantaine de Pip.app et crée une signature locale pour\ncette application uniquement. Il ne demande aucun mot de passe et ne modifie\npas les protections générales de macOS. Utilise ce lanceur seulement pour\ncette copie de Pip dont tu connais l’origine.\n\nSi macOS bloque le fichier .command, fais clic droit > Ouvrir. Après une tentative\nd’ouverture, l’autorisation peut aussi apparaître dans Réglages Système >\nConfidentialité et sécurité. Si la préparation échoue, le Terminal indique\nl’erreur ; conserve ce message pour le diagnostic.\n`;
