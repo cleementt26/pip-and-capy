@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Choisis ton compagnon · Pip</title>
+  <link rel="stylesheet" href="launcher.css">
+</head>
+<body>
+  <main>
+    <p class="eyebrow"><span></span> PIP & CAPY</p>
+    <h1>Qui t’accompagne<br>aujourd’hui ?</h1>
+    <p class="intro">Une petite présence toute douce sur ton bureau.</p>
+    <form id="choose-form">
+      <fieldset>
+        <legend class="sr-only">Choisis ton compagnon</legend>
+        <label class="pet-card">
+          <input type="radio" name="species" value="hamster" checked>
+          <span class="card-content"><span class="choice-indicator" aria-hidden="true">✓</span><img src="assets/icon.png" alt="" width="150" height="150"><strong>Pip</strong><span>Le hamster curieux</span></span>
+        </label>
+        <label class="pet-card">
+          <input type="radio" name="species" value="capybara">
+          <span class="card-content"><span class="choice-indicator" aria-hidden="true">✓</span><img src="assets/capybara.png" alt="" width="150" height="150"><strong>Capy</strong><span>Le capybara tranquille</span></span>
+        </label>
+      </fieldset>
+      <button type="submit" id="invite">Inviter sur mon bureau <span aria-hidden="true">→</span></button>
+      <p class="hint">Caresse-le avec ta souris. Habille-le au clic droit.</p>
+      <button type="button" id="cancel">Plus tard</button>
+    </form>
+    <p class="footnote">Tu peux changer de compagnon à tout moment au clic droit.</p>
+  </main>
+  <script src="launcher.js"></script>
+</body>
+</html>

@@ -6,6 +6,7 @@
   const bridge = window.hamster;
   const demo = !bridge && new URLSearchParams(location.search).has('demo');
   const modes = new Set(['walk', 'idle', 'pet', 'sleep', 'drag', 'feed']);
+  const speciesOptions = new Set(['hamster', 'capybara']);
   const defaultAppearance = { hat: 'none', glasses: 'none', outfit: 'none', color: 'sage' };
   const appearanceOptions = {
     hat: new Set(['none', 'beanie', 'cap', 'crown', 'flower', 'cowboy']),
@@ -13,7 +14,7 @@
     outfit: new Set(['none', 'hoodie', 'mariniere', 'scarf', 'overalls']),
     color: new Set(['sage', 'blue', 'rose', 'lavender', 'orange'])
   };
-  let state = { mode: 'idle', direction: 1, phase: 0, affection: 0, paused: false, appearance: { ...defaultAppearance } };
+  let state = { mode: 'idle', direction: 1, phase: 0, affection: 0, paused: false, species: 'hamster', appearance: { ...defaultAppearance } };
   let previousMode = 'idle';
   let snackTimer;
   let dragging = false;
@@ -40,16 +41,58 @@
   }
 
   function update(next) {
+    next = next && typeof next === 'object' ? next : {};
     const beginSnack = next.mode === 'feed' && state.mode !== 'feed';
     state = { ...state, ...next };
+    state.species = speciesOptions.has(state.species) ? state.species : 'hamster';
+    world.dataset.species = state.species;
     state.appearance = applyAppearance(state.appearance);
     world.dataset.mode = modes.has(state.mode) ? state.mode : 'idle';
     world.dataset.direction = state.direction === -1 ? '-1' : '1';
     world.classList.toggle('paused', !!state.paused);
-    world.setAttribute('aria-label', state.mode === 'pet' ? 'Pip ferme les yeux et savoure ses caresses' : state.mode === 'sleep' ? 'Pip dort paisiblement' : 'Pip, un petit hamster');
+    const companion = state.species === 'capybara' ? 'Capy, le capybara' : 'Pip, le hamster';
+    world.setAttribute('aria-label', state.mode === 'pet' ? `${companion}, ferme les yeux et savoure ses caresses` : state.mode === 'sleep' ? `${companion}, dort paisiblement` : companion);
+    if (demo) { const speciesSelect = document.getElementById('demo-species'); if (speciesSelect) speciesSelect.value = state.species; }
     document.querySelectorAll('[data-mode].active').forEach(el => { if (el !== world) el.classList.remove('active'); });
     document.querySelector(`button[data-mode="${world.dataset.mode}"]`)?.classList.add('active');
     if (beginSnack) snack();
+  }
+
+  if (demo) {
+    let looks = { hamster: { ...defaultAppearance }, capybara: { ...defaultAppearance } };
+    try {
+      const saved = JSON.parse(localStorage.getItem('pip-demo-companions'));
+      if (saved && typeof saved === 'object') {
+        state.species = speciesOptions.has(saved.species) ? saved.species : 'hamster';
+        looks = { hamster: normalizeAppearance(saved.looks?.hamster), capybara: normalizeAppearance(saved.looks?.capybara) };
+      } else {
+        looks.hamster = normalizeAppearance(JSON.parse(localStorage.getItem('pip-demo-appearance')));
+      }
+    } catch (_) { /* The preview works when storage is blocked or contains invalid data. */ }
+    const params = new URLSearchParams(location.search);
+    if (speciesOptions.has(params.get('species'))) state.species = params.get('species');
+    state.appearance = { ...looks[state.species] };
+    for (const key of Object.keys(defaultAppearance)) if (appearanceOptions[key].has(params.get(key))) state.appearance[key] = params.get(key);
+    const saveDemo = () => {
+      looks[state.species] = normalizeAppearance(state.appearance);
+      try { localStorage.setItem('pip-demo-companions', JSON.stringify({ species: state.species, looks })); } catch (_) { /* Optional demo persistence only. */ }
+    };
+    document.querySelectorAll('[data-appearance]').forEach(select => {
+      select.addEventListener('change', () => {
+        update({ appearance: { ...state.appearance, [select.dataset.appearance]: select.value } });
+        saveDemo();
+      });
+    });
+    document.getElementById('demo-reset-look')?.addEventListener('click', () => {
+      update({ appearance: { ...defaultAppearance } });
+      saveDemo();
+    });
+    document.getElementById('demo-species')?.addEventListener('change', event => {
+      looks[state.species] = normalizeAppearance(state.appearance);
+      const species = speciesOptions.has(event.target.value) ? event.target.value : 'hamster';
+      update({ species, appearance: { ...looks[species] } });
+      saveDemo();
+    });
   }
 
   function snack() {
@@ -118,25 +161,6 @@
       update({ mode: elapsed % 14 < 7 ? 'idle' : 'walk', direction: Math.floor(elapsed / 14) % 2 ? -1 : 1 });
     }, 1000);
     window.addEventListener('beforeunload', () => clearInterval(autonomous), { once: true });
-  }
-
-  if (demo) {
-    try { state.appearance = normalizeAppearance(JSON.parse(localStorage.getItem('pip-demo-appearance'))); } catch (_) { /* The preview also works when browser storage is disabled. */ }
-    const params = new URLSearchParams(location.search);
-    for (const key of Object.keys(defaultAppearance)) if (params.has(key) && appearanceOptions[key].has(params.get(key))) state.appearance[key] = params.get(key);
-    const saveDemoAppearance = () => {
-      try { localStorage.setItem('pip-demo-appearance', JSON.stringify(state.appearance)); } catch (_) { /* Optional preview persistence only. */ }
-    };
-    document.querySelectorAll('[data-appearance]').forEach(select => {
-      select.addEventListener('change', () => {
-        update({ appearance: { ...state.appearance, [select.dataset.appearance]: select.value } });
-        saveDemoAppearance();
-      });
-    });
-    document.getElementById('demo-reset-look').addEventListener('click', () => {
-      update({ appearance: { ...defaultAppearance } });
-      saveDemoAppearance();
-    });
   }
 
   window.addEventListener('beforeunload', () => {

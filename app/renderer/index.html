@@ -20,14 +20,15 @@
         <button type="button" data-mode="sleep">Dodo</button>
         <button type="button" id="demo-feed">Une graine</button>
       </div>
-      <fieldset class="demo-wardrobe">
-        <legend>La petite garde-robe de Pip</legend>
-        <label>Couvre-chef<select id="demo-hat" data-appearance="hat"><option value="none">Sans couvre-chef</option><option value="beanie">Bonnet à pompon</option><option value="cap">Casquette</option><option value="crown">Petite couronne</option><option value="flower">Fleur dans les poils</option><option value="cowboy">Chapeau de cowboy</option></select></label>
-        <label>Lunettes<select id="demo-glasses" data-appearance="glasses"><option value="none">Sans lunettes</option><option value="round">Lunettes rondes</option><option value="sun">Lunettes de soleil</option><option value="heart">Lunettes cœur</option></select></label>
-        <label>Tenue<select id="demo-outfit" data-appearance="outfit"><option value="none">Tout en fourrure</option><option value="hoodie">Petit sweat</option><option value="mariniere">Marinière</option><option value="scarf">Écharpe douillette</option><option value="overalls">Salopette</option></select></label>
-        <label>Couleur<select id="demo-color" data-appearance="color"><option value="sage">Sauge</option><option value="blue">Bleu</option><option value="rose">Rose</option><option value="lavender">Lavande</option><option value="orange">Mandarine</option></select></label>
-        <button id="demo-reset-look" type="button">Retrouver Pip au naturel</button>
-      </fieldset>
+<fieldset class="demo-wardrobe">
+<legend>Ton petit compagnon</legend>
+<label class="demo-species-row">Animal<select id="demo-species" data-species-select><option value="hamster">Pip, le hamster</option><option value="capybara">Le capybara</option></select></label>
+<label>Couvre-chef<select id="demo-hat" data-appearance="hat"><option value="none">Sans couvre-chef</option><option value="beanie">Bonnet à pompon</option><option value="cap">Casquette</option><option value="crown">Petite couronne</option><option value="flower">Fleur dans les poils</option><option value="cowboy">Chapeau de cowboy</option></select></label>
+<label>Lunettes<select id="demo-glasses" data-appearance="glasses"><option value="none">Sans lunettes</option><option value="round">Lunettes rondes</option><option value="sun">Lunettes de soleil</option><option value="heart">Lunettes cœur</option></select></label>
+<label>Tenue<select id="demo-outfit" data-appearance="outfit"><option value="none">Tout en fourrure</option><option value="hoodie">Petit sweat</option><option value="mariniere">Marinière</option><option value="scarf">Écharpe douillette</option><option value="overalls">Salopette</option></select></label>
+<label>Couleur<select id="demo-color" data-appearance="color"><option value="sage">Sauge</option><option value="blue">Bleu</option><option value="rose">Rose</option><option value="lavender">Lavande</option><option value="orange">Mandarine</option></select></label>
+<button id="demo-reset-look" type="button">Retrouver mon compagnon au naturel</button>
+</fieldset>
       <div class="demo-platforms">WINDOWS & MAC <span>·</span> TOUT DOUX, TOUT SIMPLEMENT</div>
     </div>
     <div class="demo-scene" aria-hidden="true">
@@ -37,124 +38,147 @@
       <div class="scene-caption">BONJOUR, TOI ♡</div>
     </div>
   </main>
-  <div class="pet-world" id="pet-world" data-mode="idle" data-direction="1" data-hat="none" data-glasses="none" data-outfit="none" data-color="sage" role="img" aria-label="Pip, un petit hamster">
-    <svg class="pet-art" id="hamster" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" aria-hidden="true">
+  <div class="pet-world" id="pet-world" data-mode="idle" data-direction="1" data-species="hamster" data-hat="none" data-glasses="none" data-outfit="none" data-color="sage" role="img" aria-label="Pip, un petit hamster">
+    <svg class="pet-art" xmlns="http://www.w3.org/2000/svg" id="hamster" viewBox="0 0 240 240" width="240" height="240" aria-hidden="true">
       <defs>
-        <radialGradient id="fur" cx="42%" cy="28%" r="77%"><stop offset="0" stop-color="#f4cea0"/><stop offset="0.55" stop-color="#e8b47e"/><stop offset="1" stop-color="#d7985e"/></radialGradient>
-        <radialGradient id="cream" cx="47%" cy="30%" r="80%"><stop offset="0" stop-color="#fff9e9"/><stop offset="0.82" stop-color="#fff0d3"/><stop offset="1" stop-color="#f3d9b7"/></radialGradient>
-        <radialGradient id="ear" cx="50%" cy="40%" r="65%"><stop stop-color="#f6b3ad"/><stop offset="1" stop-color="#e49c93"/></radialGradient>
-        <radialGradient id="blush"><stop stop-color="#e99694" stop-opacity="0.65"/><stop offset="1" stop-color="#eea5a2" stop-opacity="0"/></radialGradient>
-        <radialGradient id="shadow"><stop stop-color="#6d4b3c" stop-opacity="0.17"/><stop offset="1" stop-color="#6d4b3c" stop-opacity="0"/></radialGradient>
-        <linearGradient id="heart" x1="0" y1="0" x2="0.7" y2="1"><stop stop-color="#f6a5a8"/><stop offset="1" stop-color="#e58292"/></linearGradient>
-        <linearGradient id="seed" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#795c47"/><stop offset="0.48" stop-color="#c3a280"/><stop offset="1" stop-color="#816046"/></linearGradient>
-      </defs>
-      <ellipse class="ground-shadow" cx="120" cy="216" rx="69" ry="12" fill="url(#shadow)"/>
+        <radialGradient id="fur" cx="42%" cy="28%" r="77%"><stop offset="0" stop-color="#f4cea0" /><stop offset="0.55" stop-color="#e8b47e" /><stop offset="1" stop-color="#d7985e" /></radialGradient>
+        <radialGradient id="cream" cx="47%" cy="30%" r="80%"><stop offset="0" stop-color="#fff9e9" /><stop offset="0.82" stop-color="#fff0d3" /><stop offset="1" stop-color="#f3d9b7" /></radialGradient>
+        <radialGradient id="ear" cx="50%" cy="40%" r="65%"><stop stop-color="#f6b3ad" /><stop offset="1" stop-color="#e49c93" /></radialGradient>
+        <radialGradient id="blush"><stop stop-color="#e99694" stop-opacity="0.65" /><stop offset="1" stop-color="#eea5a2" stop-opacity="0" /></radialGradient>
+        <radialGradient id="shadow"><stop stop-color="#6d4b3c" stop-opacity="0.17" /><stop offset="1" stop-color="#6d4b3c" stop-opacity="0" /></radialGradient>
+        <linearGradient id="heart" x1="0" y1="0" x2="0.7" y2="1"><stop stop-color="#f6a5a8" /><stop offset="1" stop-color="#e58292" /></linearGradient>
+        <linearGradient id="seed" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#795c47" /><stop offset="0.48" stop-color="#c3a280" /><stop offset="1" stop-color="#816046" /></linearGradient>
+      <linearGradient id="capy-fur" x1="0.2" y1="0" x2="0.8" y2="1"><stop stop-color="#b99163" /><stop offset="0.55" stop-color="#a67e53" /><stop offset="1" stop-color="#8d6847" /></linearGradient>
+    <linearGradient id="capy-head" x1="0.2" y1="0" x2="0.8" y2="1"><stop stop-color="#c09a6b" /><stop offset="0.6" stop-color="#ad8559" /><stop offset="1" stop-color="#9a734e" /></linearGradient>
+    <linearGradient id="capy-muzzle" x1="0.35" y1="0" x2="0.6" y2="1"><stop stop-color="#b38b60" /><stop offset="1" stop-color="#9f764f" /></linearGradient>
+    <radialGradient id="capy-shadow"><stop stop-color="#543c2c" stop-opacity=".19" /><stop offset="1" stop-color="#543c2c" stop-opacity="0" /></radialGradient>
+  </defs>
+      <ellipse class="ground-shadow" cx="120" cy="216" rx="69" ry="12" fill="url(#shadow)" />
       <g class="hamster-motion">
         <g class="body-turn">
-          <g class="foot foot-left"><path d="M77 200 C67 202 65 211 71 216 C77 220 96 218 99 213 L97 201Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8"/><path d="M77 210l-1 5m7-5v6" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round"/></g>
-          <g class="foot foot-right"><path d="M143 201 L141 213 C145 218 162 220 169 216 C175 211 171 203 162 200Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8"/><path d="M157 210v6m7-6 1 5" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round"/></g>
-          <g class="hamster-body">
-            <g class="ear ear-left"><path d="M63 105 C45 92 49 67 65 63 C82 57 96 75 94 88Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2"/><path d="M65 91 C54 83 58 72 66 71 C75 69 82 77 82 85Z" fill="url(#ear)"/><path d="M60 70 C63 66 68 65 72 67" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round"/></g>
-            <g class="ear ear-right"><path d="M147 88 C145 75 158 58 175 63 C191 68 195 91 178 105Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2"/><path d="M158 85 C158 76 166 69 175 72 C183 76 185 84 175 92Z" fill="url(#ear)"/><path d="M169 67 C175 66 179 69 181 73" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round"/></g>
-            <path class="fur-body" d="M120 77 C153 76 177 93 184 123 C189 140 191 148 189 163 C197 182 187 203 171 210 C151 221 88 221 68 210 C51 202 44 182 51 162 C48 146 52 134 56 120 C64 92 87 77 120 77Z" fill="url(#fur)" stroke="#b98559" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M66 117 C75 91 99 83 119 83" fill="none" stroke="#ffe3ba" stroke-width="3.5" stroke-linecap="round" opacity=".65"/>
-            <path d="M89 116 C98 111 109 119 120 119 C132 119 143 111 153 116 C167 122 166 135 173 143 C188 162 182 194 167 203 C147 215 92 215 72 203 C55 192 52 165 68 145 C76 135 75 122 89 116Z" fill="url(#cream)"/>
-            <path class="fur-tuft" d="M109 80 C112 75 116 73 117 77 C120 71 123 72 123 77 C128 74 131 76 129 80" fill="#f2c697" stroke="#c89564" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-            <ellipse cx="72" cy="157" rx="24" ry="21" fill="url(#blush)"/><ellipse cx="168" cy="157" rx="24" ry="21" fill="url(#blush)"/>
-            <g class="cheek-freckles" fill="#d7a18a" opacity=".65"><circle cx="72" cy="153" r="1.1"/><circle cx="77" cy="157" r="1"/><circle cx="70" cy="159" r=".9"/><circle cx="168" cy="153" r="1.1"/><circle cx="163" cy="157" r="1"/><circle cx="170" cy="159" r=".9"/></g>
-            <g class="wardrobe outfit outfit-hoodie" stroke-linecap="round" stroke-linejoin="round">
-              <path class="fabric" d="M74 167 Q86 161 99 165 Q120 178 141 165 Q154 161 166 167 L174 195 Q176 207 164 210 Q120 221 76 210 Q64 207 66 195Z" stroke-width="1.8"/>
-              <path class="fabric-dark" d="M95 166 Q120 182 145 166 L140 173 Q120 188 100 173Z"/>
-              <path d="M106 177v9m28-9v9" fill="none" stroke="#fff4df" stroke-width="1.8"/>
-              <circle cx="106" cy="187" r="1.7" fill="#fff4df"/><circle cx="134" cy="187" r="1.7" fill="#fff4df"/>
-              <path class="fabric-light" d="M101 192 Q120 186 139 192 L142 205 Q120 211 98 205Z" stroke-width="1.1"/>
-              <path d="M79 208q41 10 82 0" fill="none" stroke="#fff8e9" stroke-opacity=".45" stroke-width="1.5"/>
-            </g>
-            <g class="wardrobe outfit outfit-mariniere" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M74 167 Q85 163 99 166 Q120 178 141 166 Q155 163 166 167 L174 195 Q175 207 163 210 Q120 220 77 210 Q65 207 66 195Z" fill="#fff8e7" class="fabric-outline" stroke-width="1.8"/>
-              <path class="stripe" d="M74 177q46 15 92 0m-97 12q51 16 102 0m-102 12q51 16 102 0" fill="none" stroke-width="5"/>
-              <path class="stripe" d="M98 166q22 16 44 0" fill="none" stroke-width="3"/>
-              <path d="M119 187v11m-5-5h10m-11 1q7 13 14 0" fill="none" stroke="#b5a07e" stroke-width="1.6"/>
-            </g>
-            <g class="wardrobe outfit outfit-scarf" stroke-linecap="round" stroke-linejoin="round">
-              <path class="fabric-dark" d="M133 171 Q146 170 151 178 L151 201 L135 207 L134 184Z" stroke-width="1.6"/>
-              <path class="fabric" d="M77 166 Q120 181 163 166 L166 177 Q120 194 74 177Z" stroke-width="1.8"/>
-              <path class="fabric-light" d="M82 172q38 13 76 0" fill="none" stroke-width="2"/>
-              <path class="fabric-light" d="m140 184 7-2m-7 9 7-2m-10 13v6m5-7v6m5-8v6" fill="none" stroke-width="1.6"/>
-            </g>
-            <g class="wardrobe outfit outfit-overalls" stroke-linecap="round" stroke-linejoin="round">
-              <path class="fabric" d="M87 177 L90 164 L101 166 L103 179 H137 L139 166 L150 164 L153 177 L163 191 L163 210 Q120 220 77 210 L77 191Z" stroke-width="1.8"/>
-              <path class="fabric-light" d="M100 181h40v26q-20 7-40 0Z" stroke-width="1.3"/>
-              <path class="fabric-dark" d="M110 190h20v11q-10 6-20 0Z"/>
-              <path d="M120 210v6m-30-43 6 9m54-9-6 9" fill="none" class="fabric-outline" stroke-width="1.3"/>
-              <circle cx="98" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8"/><circle cx="142" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8"/>
-            </g>
-            <g class="eyes-open">
-              <g class="eye-left"><ellipse cx="91" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="89.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="93" cy="142" r=".9" fill="#cbb5a2"/></g>
-              <g class="eye-right"><ellipse cx="149" cy="139" rx="6.1" ry="8.1" fill="#493a32"/><ellipse cx="147.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6"/><circle cx="151" cy="142" r=".9" fill="#cbb5a2"/></g>
-            </g>
-            <g class="eyes-happy" fill="none" stroke="#6f4b3e" stroke-width="2.7" stroke-linecap="round"><path d="M84 141 Q91 133 98 141"/><path d="M142 141 Q149 133 156 141"/></g>
-            <g class="eyes-sleep" fill="none" stroke="#6f4b3e" stroke-width="2.5" stroke-linecap="round"><path d="M84 140 Q91 146 98 140"/><path d="M142 140 Q149 146 156 140"/></g>
-            <g class="muzzle"><ellipse cx="111" cy="155" rx="13" ry="9" fill="#fff9ed"/><ellipse cx="129" cy="155" rx="13" ry="9" fill="#fff9ed"/><path d="M115 150 C115 146 125 146 125 150 C124 153 121 155 120 155 C119 155 116 153 115 150Z" fill="#b97e76"/><path d="M120 154v4m-8-1q4 7 8 1q4 6 8-1" stroke="#926653" stroke-width="1.7" fill="none" stroke-linecap="round"/><path class="smile" d="M116 161q4 6 8 0" fill="#dda297"/></g>
-            <g class="whiskers" fill="none" stroke="#b99372" stroke-width="1.2" stroke-linecap="round" opacity=".75"><path d="m71 148-16-2m16 9-18 3m116-10 16-2m-16 9 18 3"/></g>
-            <g class="wardrobe glasses glasses-round" fill="none" stroke="#79624e" stroke-width="2.5" stroke-linecap="round">
-              <circle cx="91" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13"/><circle cx="149" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13"/>
-              <path d="M107 138q13-7 26 0m-58-3-10-4m100 4 10-4"/>
-              <path d="m81 132 5-4m53 4 5-4" stroke="#fffdf0" stroke-opacity=".9" stroke-width="2"/>
-            </g>
-            <g class="wardrobe glasses glasses-sun" stroke="#635249" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path class="sun-lens" d="M74 130 Q91 125 108 130 L105 146 Q103 153 91 153 Q78 153 77 145Z" fill="#637b78" fill-opacity=".86"/>
-              <path class="sun-lens" d="M132 130 Q149 125 166 130 L163 145 Q162 153 149 153 Q137 153 135 146Z" fill="#637b78" fill-opacity=".86"/>
-              <path d="M108 133q12-5 24 0m-58 0-10-4m102 4 10-4" fill="none"/>
-              <path d="m81 133 11-2m47 2 11-2" fill="none" stroke="#e5f1de" stroke-opacity=".75" stroke-width="1.5"/>
-            </g>
-            <g class="wardrobe glasses glasses-heart" fill="#f3bbca" fill-opacity=".14" stroke="#bc7182" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M91 154 C72 143 73 131 81 129 Q88 128 91 135 Q95 127 102 129 C113 133 107 145 91 154Z"/>
-              <path d="M149 154 C130 143 131 131 139 129 Q146 128 149 135 Q153 127 160 129 C171 133 165 145 149 154Z"/>
-              <path d="M108 135q12-5 24 0m-57 1-11-5m101 5 11-5" fill="none"/>
-            </g>
-            <g class="arm arm-left"><path d="M62 174 C66 163 76 162 81 170 C86 178 78 188 71 185 C68 184 65 181 62 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m70 174 3 2m-5 2 3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
-            <g class="arm arm-right"><path d="M178 174 C174 163 164 162 159 170 C154 178 162 188 169 185 C172 184 175 181 178 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7"/><path d="m170 174-3 2m5 2-3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round"/></g>
-            <g class="snack"><path d="M120 173 C110 179 109 190 120 199 C131 190 130 179 120 173Z" fill="url(#seed)" stroke="#765b45" stroke-width="1.3"/><path d="m120 177v17m-3-14-1 10m7-10 1 10" stroke="#e7d4ae" stroke-width="1.2" stroke-linecap="round"/><path d="M105 185q7-6 10 0m20 0q-7-6-10 0" fill="none" stroke="#f1c2a6" stroke-width="7" stroke-linecap="round"/></g>
-            <g class="wardrobe hat hat-beanie" stroke-linecap="round" stroke-linejoin="round">
-              <circle class="fabric-light" cx="121" cy="51" r="10" stroke-width="1.5"/>
-              <path class="fabric" d="M82 84 Q84 57 104 54 Q122 48 141 55 Q158 60 161 84Z" stroke-width="1.8"/>
-              <path class="fabric-light" d="M82 81 Q121 74 161 81 L162 94 Q120 99 80 94Z" stroke-width="1.8"/>
-              <path class="fabric-outline" d="m89 83-1 10m10-11-1 11m10-12-1 12m11-12v12m10-12 1 12m10-11 1 11m9-10 1 10" fill="none" stroke-width="1.3" opacity=".55"/>
-            </g>
-            <g class="wardrobe hat hat-cap" stroke-linecap="round" stroke-linejoin="round">
-              <path class="fabric" d="M82 86 Q82 59 108 55 Q137 50 151 66 L158 86Z" stroke-width="1.8"/>
-              <path class="fabric-dark" d="M112 84 Q143 78 174 87 Q181 90 173 95 Q153 102 122 95Z" stroke-width="1.7"/>
-              <path class="fabric-outline" d="M113 56q19 9 20 27m-47 2q34-5 66 1" fill="none" stroke-width="1.4" opacity=".6"/>
-              <circle class="fabric-light" cx="110" cy="54" r="3"/>
-              <path d="M106 69q-8 5 0 12q8-7 0-12Z" fill="#fff4dc"/>
-            </g>
-            <g class="wardrobe hat hat-crown" stroke="#c29a4d" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M84 86 L82 58 L100 71 L120 49 L140 71 L158 58 L156 86Z" fill="#f2ce79"/>
-              <path d="M84 84q36 8 72 0v10q-36 8-72 0Z" fill="#ffe4a0"/>
-              <circle cx="82" cy="57" r="3.5" fill="#fff2c1"/><circle cx="120" cy="48" r="4" fill="#fff2c1"/><circle cx="158" cy="57" r="3.5" fill="#fff2c1"/>
-              <path d="m120 69 5 7-5 7-5-7Z" fill="#e7989f" stroke="#c97d84" stroke-width="1"/>
-              <circle cx="98" cy="82" r="2" fill="#d8af56"/><circle cx="142" cy="82" r="2" fill="#d8af56"/>
-            </g>
-            <g class="wardrobe hat hat-flower" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M149 85q-14-6-18 4q11 8 22-1m4-5q14-8 20 1q-6 12-21 6" fill="#a5ba8d" stroke="#7f986a" stroke-width="1.4"/>
-              <g fill="#f3b9bc" stroke="#d898a0" stroke-width="1.4"><ellipse cx="155" cy="65" rx="8" ry="11"/><ellipse cx="164" cy="72" rx="11" ry="8"/><ellipse cx="161" cy="83" rx="8" ry="11" transform="rotate(-26 161 83)"/><ellipse cx="149" cy="84" rx="8" ry="11" transform="rotate(26 149 84)"/><ellipse cx="145" cy="73" rx="11" ry="8"/></g>
-              <circle cx="155" cy="76" r="7" fill="#f5d888" stroke="#cca95b" stroke-width="1.4"/>
-              <circle cx="153" cy="74" r="1.2" fill="#fff4c4"/>
-            </g>
-            <g class="wardrobe hat hat-cowboy" stroke="#a07851" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M83 85 L90 57 Q96 50 107 57 Q119 65 132 57 Q145 49 151 57 L159 85Z" fill="#dcb98a"/>
-              <path d="M84 79q36 9 74 0l2 10q-40 9-78-1Z" fill="#a97b59"/>
-              <path d="M65 82 Q76 94 92 88 Q121 82 150 88 Q165 94 178 82 Q182 95 164 99 Q121 108 79 99 Q61 96 65 82Z" fill="#ebcfa5"/>
-              <path d="M98 59q5 12 12 14m34-14q-4 11-10 14" fill="none" stroke="#f7e1bb" stroke-width="2"/>
-              <path d="m121 80 2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2-3.8-3.7 5.3-.8Z" fill="#f8df9e" stroke="#caa763" stroke-width="1"/>
-            </g>
-          </g>
-        </g>
+          <g class="species species-hamster"><g class="foot foot-left"><path d="M77 200 C67 202 65 211 71 216 C77 220 96 218 99 213 L97 201Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8" /><path d="M77 210l-1 5m7-5v6" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round" /></g>
+          <g class="foot foot-right"><path d="M143 201 L141 213 C145 218 162 220 169 216 C175 211 171 203 162 200Z" fill="#f0baa7" stroke="#bb8c70" stroke-width="1.8" /><path d="M157 210v6m7-6 1 5" fill="none" stroke="#cf9a83" stroke-width="1.3" stroke-linecap="round" /></g>
+          </g><g class="species species-capybara"><g class="foot foot-left">
+        <path d="M61 191 Q54 199 58 212 Q63 218 80 216 L89 208 L86 192Z" fill="#886548" stroke="#715238" stroke-width="1.7" />
+        <path d="M64 208v6m6-6v7m6-8v7" fill="none" stroke="#c49e73" stroke-width="1.2" stroke-linecap="round" />
       </g>
-      <g class="heart heart-one" fill="url(#heart)"><path d="M120 54 C104 44 106 35 113 36 C117 36 120 39 120 42 C121 36 127 33 132 37 C139 44 129 50 120 54Z"/></g>
-      <g class="heart heart-two" fill="#f1b6b7"><path d="M71 70 C61 63 62 57 67 57 C70 57 72 59 72 61 C73 57 77 56 80 59 C83 63 77 67 71 70Z"/></g>
-      <g class="heart heart-three" fill="#eda4ad"><path d="M173 59 C165 53 166 48 170 48 C173 48 174 50 174 51 C175 48 178 47 180 49 C184 53 178 56 173 59Z"/></g>
+      <g class="foot foot-right">
+        <path d="M154 192 L151 208 L160 216 Q177 218 182 212 Q186 199 179 191Z" fill="#886548" stroke="#715238" stroke-width="1.7" />
+        <path d="M164 207v7m6-6v7m6-7v6" fill="none" stroke="#c49e73" stroke-width="1.2" stroke-linecap="round" />
+      </g>
+      </g><g class="hamster-body"><g class="species species-hamster"><g class="ear ear-left"><path d="M63 105 C45 92 49 67 65 63 C82 57 96 75 94 88Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2" /><path d="M65 91 C54 83 58 72 66 71 C75 69 82 77 82 85Z" fill="url(#ear)" /><path d="M60 70 C63 66 68 65 72 67" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round" /></g>
+            <g class="ear ear-right"><path d="M147 88 C145 75 158 58 175 63 C191 68 195 91 178 105Z" fill="url(#fur)" stroke="#bc8a61" stroke-width="2" /><path d="M158 85 C158 76 166 69 175 72 C183 76 185 84 175 92Z" fill="url(#ear)" /><path d="M169 67 C175 66 179 69 181 73" fill="none" stroke="#ffe2bc" stroke-width="2.2" stroke-linecap="round" /></g>
+            <path class="fur-body" d="M120 77 C153 76 177 93 184 123 C189 140 191 148 189 163 C197 182 187 203 171 210 C151 221 88 221 68 210 C51 202 44 182 51 162 C48 146 52 134 56 120 C64 92 87 77 120 77Z" fill="url(#fur)" stroke="#b98559" stroke-width="2" stroke-linejoin="round" />
+            <path d="M66 117 C75 91 99 83 119 83" fill="none" stroke="#ffe3ba" stroke-width="3.5" stroke-linecap="round" opacity=".65" />
+            <path d="M89 116 C98 111 109 119 120 119 C132 119 143 111 153 116 C167 122 166 135 173 143 C188 162 182 194 167 203 C147 215 92 215 72 203 C55 192 52 165 68 145 C76 135 75 122 89 116Z" fill="url(#cream)" />
+            <path class="fur-tuft" d="M109 80 C112 75 116 73 117 77 C120 71 123 72 123 77 C128 74 131 76 129 80" fill="#f2c697" stroke="#c89564" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+            <ellipse cx="72" cy="157" rx="24" ry="21" fill="url(#blush)" /><ellipse cx="168" cy="157" rx="24" ry="21" fill="url(#blush)" />
+            <g class="cheek-freckles" fill="#d7a18a" opacity=".65"><circle cx="72" cy="153" r="1.1" /><circle cx="77" cy="157" r="1" /><circle cx="70" cy="159" r=".9" /><circle cx="168" cy="153" r="1.1" /><circle cx="163" cy="157" r="1" /><circle cx="170" cy="159" r=".9" /></g>
+            <g class="eyes-open">
+              <g class="eye-left"><ellipse cx="91" cy="139" rx="6.1" ry="8.1" fill="#493a32" /><ellipse cx="89.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6" /><circle cx="93" cy="142" r=".9" fill="#cbb5a2" /></g>
+              <g class="eye-right"><ellipse cx="149" cy="139" rx="6.1" ry="8.1" fill="#493a32" /><ellipse cx="147.6" cy="136.6" rx="2.1" ry="2.3" fill="#fffdf6" /><circle cx="151" cy="142" r=".9" fill="#cbb5a2" /></g>
+            </g>
+            <g class="eyes-happy" fill="none" stroke="#6f4b3e" stroke-width="2.7" stroke-linecap="round"><path d="M84 141 Q91 133 98 141" /><path d="M142 141 Q149 133 156 141" /></g>
+            <g class="eyes-sleep" fill="none" stroke="#6f4b3e" stroke-width="2.5" stroke-linecap="round"><path d="M84 140 Q91 146 98 140" /><path d="M142 140 Q149 146 156 140" /></g>
+            <g class="muzzle"><ellipse cx="111" cy="155" rx="13" ry="9" fill="#fff9ed" /><ellipse cx="129" cy="155" rx="13" ry="9" fill="#fff9ed" /><path d="M115 150 C115 146 125 146 125 150 C124 153 121 155 120 155 C119 155 116 153 115 150Z" fill="#b97e76" /><path d="M120 154v4m-8-1q4 7 8 1q4 6 8-1" stroke="#926653" stroke-width="1.7" fill="none" stroke-linecap="round" /><path class="smile" d="M116 161q4 6 8 0" fill="#dda297" /></g>
+            <g class="whiskers" fill="none" stroke="#b99372" stroke-width="1.2" stroke-linecap="round" opacity=".75"><path d="m71 148-16-2m16 9-18 3m116-10 16-2m-16 9 18 3" /></g>
+            </g><g class="species species-capybara"><path class="fur-body" d="M78 112 Q96 100 120 104 Q146 101 164 114 Q182 133 188 166 Q195 190 182 204 Q171 216 145 217 H95 Q68 216 57 204 Q45 190 52 166 Q58 133 78 112Z" fill="url(#capy-fur)" stroke="#7e5c3d" stroke-width="1.9" />
+        <path d="M68 162 Q61 183 70 197" fill="none" stroke="#d2ad7b" stroke-width="2.4" stroke-linecap="round" opacity=".5" />
+        <path d="M92 178 Q119 173 149 180 L151 211 Q120 221 87 211Z" fill="#b38c61" opacity=".55" />
+        <g class="ear ear-left">
+          <path d="M67 108 Q56 95 60 83 Q63 74 74 77 Q87 80 89 99Z" fill="#a07951" stroke="#7d5b3f" stroke-width="1.7" />
+          <path d="M67 97 Q62 87 68 84 Q76 83 79 95Z" fill="#7f5f47" />
+          <path d="M64 83q4-4 9-2" fill="none" stroke="#d8b88b" stroke-width="1.8" stroke-linecap="round" />
+        </g>
+        <g class="ear ear-right">
+          <path d="M151 99 Q153 80 166 77 Q177 74 180 83 Q184 95 173 108Z" fill="#a07951" stroke="#7d5b3f" stroke-width="1.7" />
+          <path d="M161 95 Q164 83 172 84 Q178 87 173 97Z" fill="#7f5f47" />
+          <path d="M167 81q5-2 9 2" fill="none" stroke="#d8b88b" stroke-width="1.8" stroke-linecap="round" />
+        </g>
+        <path class="capy-head" d="M68 106 Q78 91 101 91 H140 Q165 92 175 109 Q184 126 180 148 L175 170 Q169 182 147 186 H93 Q72 184 65 171 L59 148 Q56 123 68 106Z" fill="url(#capy-head)" stroke="#815e3e" stroke-width="1.9" stroke-linejoin="round" />
+        <path d="M76 108 Q86 98 103 98 H137" fill="none" stroke="#dec098" stroke-width="2.5" stroke-linecap="round" opacity=".6" />
+        <path class="fur-tuft" d="m110 94 3-4 3 3 4-5 3 5 4-3 3 4" fill="#bb9366" stroke="#977046" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="m69 131 4-4m-6 11 4-3m100-3-4-4m6 11-4-3" fill="none" stroke="#8b6744" stroke-opacity=".65" stroke-width="1.1" stroke-linecap="round" />
+        <g class="eyes-open">
+          <path d="M83 135 Q90 130 99 136" fill="none" stroke="#87623f" stroke-width="1.8" stroke-linecap="round" />
+          <path d="M141 136 Q150 130 157 135" fill="none" stroke="#87623f" stroke-width="1.8" stroke-linecap="round" />
+          <ellipse cx="91" cy="139" rx="4.2" ry="4.6" fill="#3c3026" />
+          <ellipse cx="149" cy="139" rx="4.2" ry="4.6" fill="#3c3026" />
+          <circle cx="89.8" cy="137.5" r="1.25" fill="#fff1d5" />
+          <circle cx="147.8" cy="137.5" r="1.25" fill="#fff1d5" />
+        </g>
+        <g class="eyes-happy" fill="none" stroke="#503c2b" stroke-width="2.6" stroke-linecap="round"><path d="M84 140 Q91 133 98 140" /><path d="M142 140 Q149 133 156 140" /></g>
+        <g class="eyes-sleep" fill="none" stroke="#503c2b" stroke-width="2.5" stroke-linecap="round"><path d="M84 139 Q91 145 98 139" /><path d="M142 139 Q149 145 156 139" /></g>
+        </g><g class="wardrobe outfit outfit-hoodie" stroke-linejoin="round" stroke-linecap="round">
+ <path class="fabric" d="M74 167 Q86 161 99 165 Q120 178 141 165 Q154 161 166 167 L174 195 Q176 207 164 210 Q120 221 76 210 Q64 207 66 195Z" stroke-width="1.8" />
+ <path class="fabric-dark" d="M95 166 Q120 182 145 166 L140 173 Q120 188 100 173Z" />
+ <path d="M106 177v9m28-9v9" fill="none" stroke="#fff4df" stroke-width="1.8" /><circle cx="106" cy="187" r="1.7" fill="#fff4df" /><circle cx="134" cy="187" r="1.7" fill="#fff4df" />
+ <path class="fabric-light" d="M101 192 Q120 186 139 192 L142 205 Q120 211 98 205Z" stroke-width="1.1" />
+ <path d="M79 208q41 10 82 0" fill="none" stroke="#fff8e9" stroke-opacity=".45" stroke-width="1.5" />
+</g>
+<g class="wardrobe outfit outfit-mariniere" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M74 167 Q85 163 99 166 Q120 178 141 166 Q155 163 166 167 L174 195 Q175 207 163 210 Q120 220 77 210 Q65 207 66 195Z" fill="#fff8e7" class="fabric-outline" stroke-width="1.8" />
+ <path class="stripe" d="M74 177q46 15 92 0m-97 12q51 16 102 0m-102 12q51 16 102 0" fill="none" stroke-width="5" /><path class="stripe" d="M98 166q22 16 44 0" fill="none" stroke-width="3" />
+ <path d="M119 187v11m-5-5h10m-11 1q7 13 14 0" fill="none" stroke="#b5a07e" stroke-width="1.6" />
+</g>
+<g class="wardrobe outfit outfit-scarf" stroke-linejoin="round" stroke-linecap="round">
+ <path class="fabric-dark" d="M133 171 Q146 170 151 178 L151 201 L135 207 L134 184Z" stroke-width="1.6" /><path class="fabric" d="M77 166 Q120 181 163 166 L166 177 Q120 194 74 177Z" stroke-width="1.8" />
+ <path class="fabric-light" d="M82 172q38 13 76 0" fill="none" stroke-width="2" /><path class="fabric-light" d="m140 184 7-2m-7 9 7-2m-10 13v6m5-7v6m5-8v6" fill="none" stroke-width="1.6" />
+</g>
+<g class="wardrobe outfit outfit-overalls" stroke-linejoin="round" stroke-linecap="round">
+ <path class="fabric" d="M87 177 L90 164 L101 166 L103 179 H137 L139 166 L150 164 L153 177 L163 191 L163 210 Q120 220 77 210 L77 191Z" stroke-width="1.8" />
+ <path class="fabric-light" d="M100 181h40v26q-20 7-40 0Z" stroke-width="1.3" /><path class="fabric-dark" d="M110 190h20v11q-10 6-20 0Z" />
+ <path d="M120 210v6m-30-43 6 9m54-9-6 9" fill="none" class="fabric-outline" stroke-width="1.3" /><circle cx="98" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8" /><circle cx="142" cy="181" r="2.6" fill="#efca74" stroke="#b6904c" stroke-width=".8" />
+</g>
+<g class="species species-capybara"><g class="muzzle">
+          <path d="M91 147 Q103 142 121 143 Q142 142 155 149 Q162 157 158 171 Q154 183 139 186 H105 Q88 184 83 173 Q79 158 91 147Z" fill="url(#capy-muzzle)" stroke="#916a46" stroke-width="1.5" />
+          <path d="M94 151 Q105 147 119 148" fill="none" stroke="#d0aa7c" stroke-width="2" stroke-linecap="round" opacity=".7" />
+          <ellipse cx="105" cy="157" rx="3.8" ry="2.7" fill="#4d3a2a" transform="rotate(-12 105 157)" />
+          <ellipse cx="137" cy="157" rx="3.8" ry="2.7" fill="#4d3a2a" transform="rotate(12 137 157)" />
+          <path d="M121 160v9m-11 3q11 6 23 0" fill="none" stroke="#725035" stroke-width="1.7" stroke-linecap="round" />
+          <path d="M106 180 Q121 184 139 179" fill="none" stroke="#be966c" stroke-width="1.7" stroke-linecap="round" />
+        </g>
+        </g><g class="wardrobe glasses glasses-round" fill="none" stroke="#79624e" stroke-width="2.5" stroke-linecap="round">
+ <circle cx="91" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13" /><circle cx="149" cy="140" r="16" fill="#e2f2ed" fill-opacity=".13" /><path d="M107 138q13-7 26 0m-58-3-10-4m100 4 10-4" /><path d="m81 132 5-4m53 4 5-4" stroke="#fffdf0" stroke-opacity=".9" stroke-width="2" />
+</g>
+<g class="wardrobe glasses glasses-sun" stroke="#635249" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+ <path class="sun-lens" d="M74 130 Q91 125 108 130 L105 146 Q103 153 91 153 Q78 153 77 145Z" fill="#637b78" fill-opacity=".86" /><path class="sun-lens" d="M132 130 Q149 125 166 130 L163 145 Q162 153 149 153 Q137 153 135 146Z" fill="#637b78" fill-opacity=".86" />
+ <path d="M108 133q12-5 24 0m-58 0-10-4m102 4 10-4" fill="none" /><path d="m81 133 11-2m47 2 11-2" fill="none" stroke="#e5f1de" stroke-opacity=".75" stroke-width="1.5" />
+</g>
+<g class="wardrobe glasses glasses-heart" fill="#f3bbca" fill-opacity=".14" stroke="#bc7182" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M91 154 C72 143 73 131 81 129 Q88 128 91 135 Q95 127 102 129 C113 133 107 145 91 154Z" /><path d="M149 154 C130 143 131 131 139 129 Q146 128 149 135 Q153 127 160 129 C171 133 165 145 149 154Z" /><path d="M108 135q12-5 24 0m-57 1-11-5m101 5 11-5" fill="none" />
+</g>
+<g class="species species-hamster"><g class="arm arm-left"><path d="M62 174 C66 163 76 162 81 170 C86 178 78 188 71 185 C68 184 65 181 62 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7" /><path d="m70 174 3 2m-5 2 3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round" /></g>
+            <g class="arm arm-right"><path d="M178 174 C174 163 164 162 159 170 C154 178 162 188 169 185 C172 184 175 181 178 174Z" fill="#f6d8b3" stroke="#c69973" stroke-width="1.7" /><path d="m170 174-3 2m5 2-3 2" stroke="#d3a78a" stroke-width="1.3" stroke-linecap="round" /></g>
+            </g><g class="species species-capybara"><g class="arm arm-left">
+          <path d="M72 177 Q66 177 65 185 L65 207 Q69 215 82 213 Q89 210 87 202 L84 184 Q82 176 72 177Z" fill="#a37b52" stroke="#7f5c3d" stroke-width="1.5" />
+          <path d="M70 206v6m6-6v7m6-8v6" fill="none" stroke="#d1aa7a" stroke-width="1.1" stroke-linecap="round" />
+        </g>
+        <g class="arm arm-right">
+          <path d="M168 177 Q158 176 156 184 L153 202 Q151 210 158 213 Q171 215 175 207 L175 185 Q174 177 168 177Z" fill="#a37b52" stroke="#7f5c3d" stroke-width="1.5" />
+          <path d="M158 205v6m6-5v7m6-7v6" fill="none" stroke="#d1aa7a" stroke-width="1.1" stroke-linecap="round" />
+        </g>
+      </g><g class="snack"><path d="M120 173 C110 179 109 190 120 199 C131 190 130 179 120 173Z" fill="url(#seed)" stroke="#765b45" stroke-width="1.3" /><path d="m120 177v17m-3-14-1 10m7-10 1 10" stroke="#e7d4ae" stroke-width="1.2" stroke-linecap="round" /><path d="M105 185q7-6 10 0m20 0q-7-6-10 0" fill="none" stroke="#f1c2a6" stroke-width="7" stroke-linecap="round" class="snack-paws" /></g><g class="wardrobe hat hat-beanie" stroke-linejoin="round" stroke-linecap="round">
+ <circle class="fabric-light" cx="121" cy="51" r="10" stroke-width="1.5" /><path class="fabric" d="M82 84 Q84 57 104 54 Q122 48 141 55 Q158 60 161 84Z" stroke-width="1.8" /><path class="fabric-light" d="M82 81 Q121 74 161 81 L162 94 Q120 99 80 94Z" stroke-width="1.8" />
+ <path class="fabric-outline" d="m89 83-1 10m10-11-1 11m10-12-1 12m11-12v12m10-12 1 12m10-11 1 11m9-10 1 10" fill="none" stroke-width="1.3" opacity=".55" />
+</g>
+<g class="wardrobe hat hat-cap" stroke-linejoin="round" stroke-linecap="round">
+ <path class="fabric" d="M82 86 Q82 59 108 55 Q137 50 151 66 L158 86Z" stroke-width="1.8" /><path class="fabric-dark" d="M112 84 Q143 78 174 87 Q181 90 173 95 Q153 102 122 95Z" stroke-width="1.7" /><path class="fabric-outline" d="M113 56q19 9 20 27m-47 2q34-5 66 1" fill="none" stroke-width="1.4" opacity=".6" /><circle class="fabric-light" cx="110" cy="54" r="3" /><path d="M106 69q-8 5 0 12q8-7 0-12Z" fill="#fff4dc" />
+</g>
+<g class="wardrobe hat hat-crown" stroke="#c29a4d" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M84 86 L82 58 L100 71 L120 49 L140 71 L158 58 L156 86Z" fill="#f2ce79" /><path d="M84 84q36 8 72 0v10q-36 8-72 0Z" fill="#ffe4a0" /><circle cx="82" cy="57" r="3.5" fill="#fff2c1" /><circle cx="120" cy="48" r="4" fill="#fff2c1" /><circle cx="158" cy="57" r="3.5" fill="#fff2c1" /><path d="m120 69 5 7-5 7-5-7Z" fill="#e7989f" stroke="#c97d84" stroke-width="1" /><circle cx="98" cy="82" r="2" fill="#d8af56" /><circle cx="142" cy="82" r="2" fill="#d8af56" />
+</g>
+<g class="wardrobe hat hat-flower" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M149 85q-14-6-18 4q11 8 22-1m4-5q14-8 20 1q-6 12-21 6" fill="#a5ba8d" stroke="#7f986a" stroke-width="1.4" /><g fill="#f3b9bc" stroke="#d898a0" stroke-width="1.4"><ellipse cx="155" cy="65" rx="8" ry="11" /><ellipse cx="164" cy="72" rx="11" ry="8" /><ellipse cx="161" cy="83" rx="8" ry="11" transform="rotate(-26 161 83)" /><ellipse cx="149" cy="84" rx="8" ry="11" transform="rotate(26 149 84)" /><ellipse cx="145" cy="73" rx="11" ry="8" /></g><circle cx="155" cy="76" r="7" fill="#f5d888" stroke="#cca95b" stroke-width="1.4" /><circle cx="153" cy="74" r="1.2" fill="#fff4c4" />
+</g>
+<g class="wardrobe hat hat-cowboy" stroke="#a07851" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M83 85 L90 57 Q96 50 107 57 Q119 65 132 57 Q145 49 151 57 L159 85Z" fill="#dcb98a" /><path d="M84 79q36 9 74 0l2 10q-40 9-78-1Z" fill="#a97b59" /><path d="M65 82 Q76 94 92 88 Q121 82 150 88 Q165 94 178 82 Q182 95 164 99 Q121 108 79 99 Q61 96 65 82Z" fill="#ebcfa5" /><path d="M98 59q5 12 12 14m34-14q-4 11-10 14" fill="none" stroke="#f7e1bb" stroke-width="2" /><path d="m121 80 2.4 4.8 5.3.8-3.8 3.7.9 5.2-4.8-2.5-4.8 2.5.9-5.2-3.8-3.7 5.3-.8Z" fill="#f8df9e" stroke="#caa763" stroke-width="1" />
+</g>
+</g></g>
+      </g>
+      <g class="heart heart-one" fill="url(#heart)"><path d="M120 54 C104 44 106 35 113 36 C117 36 120 39 120 42 C121 36 127 33 132 37 C139 44 129 50 120 54Z" /></g>
+      <g class="heart heart-two" fill="#f1b6b7"><path d="M71 70 C61 63 62 57 67 57 C70 57 72 59 72 61 C73 57 77 56 80 59 C83 63 77 67 71 70Z" /></g>
+      <g class="heart heart-three" fill="#eda4ad"><path d="M173 59 C165 53 166 48 170 48 C173 48 174 50 174 51 C175 48 178 47 180 49 C184 53 178 56 173 59Z" /></g>
       <g class="sleep-symbols" fill="#ad927d" font-family="system-ui, sans-serif" font-weight="600"><text x="165" y="74" font-size="14">z</text><text x="182" y="56" font-size="19">z</text></g>
     </svg>
   </div>
