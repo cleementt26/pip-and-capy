@@ -27,6 +27,7 @@ class PetWorld {
     this.naturalMode = 'walk';
     this.affection = 0;
     this.hat = 'none';
+    this.species = 'hamster';
     this.phase = 0;
     this.clamp();
     this.targetX = this.x;
@@ -76,7 +77,9 @@ class PetWorld {
     const x = (cursor.x - Math.round(this.x)) / this.scale;
     const y = (cursor.y - Math.round(this.y)) / this.scale;
     const ellipse = (cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
-    const body = ellipse(120, 145, 77, 69) || ellipse(78, 86, 25, 25) || ellipse(162, 86, 25, 25);
+    const body = this.species === 'capybara'
+      ? ellipse(120, 163, 72, 56) || ellipse(120, 137, 64, 58) || ellipse(74, 99, 17, 19) || ellipse(167, 99, 17, 19)
+      : ellipse(120, 145, 77, 69) || ellipse(78, 86, 25, 25) || ellipse(162, 86, 25, 25);
     const hat = this.hat === 'flower' ? ellipse(154, 75, 23, 23)
       : this.hat !== 'none' && ellipse(120, 76, 61, 37);
     return body || hat;

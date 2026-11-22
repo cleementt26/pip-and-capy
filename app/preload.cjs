@@ -10,3 +10,14 @@ contextBridge.exposeInMainWorld('hamster', {
     return () => ipcRenderer.removeListener('pet:state', listener);
   }
 });
+contextBridge.exposeInMainWorld('companions', {
+  chooseSpecies(species) { if (species === 'hamster' || species === 'capybara') ipcRenderer.send('pet:choose-species', species); },
+  cancel() { ipcRenderer.send('launcher:cancel'); },
+  onSelection(callback) {
+    if (typeof callback !== 'function') return () => {};
+    const listener = (_event, state) => callback(state);
+    ipcRenderer.on('launcher:state', listener);
+    ipcRenderer.send('launcher:ready');
+    return () => ipcRenderer.removeListener('launcher:state', listener);
+  }
+});
