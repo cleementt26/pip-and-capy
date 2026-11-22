@@ -1,8 +1,8 @@
 {
   "name": "pip-hamster",
-  "productName": "Pip Hamster",
-  "version": "1.2.0",
-  "description": "Un petit hamster de bureau qui aime les caresses.",
+  "productName": "Pip & Capy",
+  "version": "1.3.0",
+  "description": "Un hamster ou un capybara de bureau, à caresser et à personnaliser.",
   "author": "Clément Vincent",
   "license": "MIT",
   "main": "app/main.cjs",
