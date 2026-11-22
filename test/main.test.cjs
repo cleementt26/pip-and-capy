@@ -10,7 +10,7 @@ const { PetWorld } = require('../app/world.cjs');
 
 // Run the real main process against a small native-API boundary. This verifies
 // our integration contract, not Chromium or the host window manager itself.
-async function boot(savedSettings) {
+async function boot(savedSettings, { autoChoose = true } = {}) {
   const primary = { id: 1, label: 'Primary', workArea: { x: 0, y: 0, width: 1440, height: 860 } };
   const second = { id: 2, label: 'Second', workArea: { x: 1440, y: 0, width: 1280, height: 860 } };
   const state = { now: 0, cursor: { x: 0, y: 0 }, windows: [], menus: [], sends: [], input: [], fetches: [], writes: [], quit: 0, nearestQueries: 0, intervalCleared: false };
@@ -36,7 +36,7 @@ async function boot(savedSettings) {
       Object.assign(this.webContents, {
         mainFrame: {},
         isLoading: () => false,
-        send: (channel, value) => state.sends.push({ channel, value }),
+        send: (channel, value) => state.sends.push({ channel, value, window: this }),
         setWindowOpenHandler: callback => { this.openHandler = callback; },
         session: { setPermissionRequestHandler: callback => { this.permissionHandler = callback; } }
       });
@@ -44,13 +44,28 @@ async function boot(savedSettings) {
     }
     getBounds() { return { ...this.bounds }; }
     setBounds(value) { this.bounds = { ...value }; }
-    isDestroyed() { return false; }
+    isDestroyed() { return this.destroyed === true; }
     isAlwaysOnTop() { return this.top; }
     setAlwaysOnTop(value) { this.top = value; }
     setMenu() {}
     setVisibleOnAllWorkspaces() {}
     setIgnoreMouseEvents(value, options) { state.input.push({ value, options }); }
-    loadURL(url) { this.loadedURL = url; }
+    loadURL(url) {
+      this.loadedURL = url;
+      setImmediate(() => { if (!this.isDestroyed()) { this.webContents.emit('did-finish-load'); this.emit('ready-to-show'); } });
+      return Promise.resolve();
+    }
+    show() { this.visible = true; }
+    focus() { this.focused = true; }
+    close() {
+      let cancelled = false;
+      this.emit('close', { preventDefault() { cancelled = true; } });
+      if (cancelled) return;
+      this.destroyed = true;
+      this.visible = false;
+      this.emit('closed');
+    }
+    destroy() { this.close(); }
     showInactive() { this.visible = true; }
     isVisible() { return this.visible; }
     hide() { this.visible = false; }
@@ -109,13 +124,26 @@ async function boot(savedSettings) {
   };
   vm.runInNewContext(fs.readFileSync(path.join(dirname, 'main.cjs'), 'utf8'), sandbox, { filename: 'main.cjs' });
   await new Promise(resolve => setImmediate(resolve));
+  await new Promise(resolve => setImmediate(resolve));
   state.pet = state.windows[0];
-  state.tick = () => { state.now += 34; state.timer(); return state.sends.at(-1)?.value; };
+  state.getLauncher = () => state.windows.find(window => window.loadedURL?.includes('launcher.html') && !window.isDestroyed());
+  state.choose = (species, event) => {
+    const launcher = state.getLauncher();
+    const sender = event || { sender: launcher.webContents, senderFrame: launcher.webContents.mainFrame };
+    ipcMain.emit('pet:choose-species', sender, species);
+  };
+  state.app = app;
+  state.cancel = event => {
+    const launcher = state.getLauncher();
+    ipcMain.emit('launcher:cancel', event || { sender: launcher.webContents, senderFrame: launcher.webContents.mainFrame });
+  };
+  state.tick = () => { state.now += 34; state.timer(); return state.sends.filter(message => message.channel === 'pet:state' && message.window === state.pet).at(-1)?.value; };
   state.pointAtPet = () => {
     const b = state.pet.bounds;
     state.cursor = { x: b.x + b.width / 2, y: b.y + b.height * 145 / 240 };
   };
   state.action = (action, event = { sender: state.pet.webContents, senderFrame: state.pet.webContents.mainFrame }) => ipcMain.emit('pet:action', event, action);
+  if (autoChoose && state.getLauncher()) state.choose(savedSettings?.species === 'capybara' ? 'capybara' : 'hamster');
   return state;
 }
 
@@ -124,7 +152,7 @@ const defaultAppearance = { hat: 'none', glasses: 'none', outfit: 'none', color:
 function customization(state) {
   state.popup?.callback();
   state.tray.emit('right-click');
-  const menu = state.menus.at(-1).items.find(item => item.label === 'Personnaliser Pip');
+  const menu = state.menus.at(-1).items.find(item => /^Personnaliser/.test(item.label));
   assert.ok(menu, 'the native menu exposes customization');
   return menu.submenu;
 }
@@ -137,10 +165,19 @@ function selectAppearance(state, category, label) {
   option.click();
   state.popup.callback();
 }
+function openChooser(state) {
+  state.popup?.callback();
+  state.tray.emit('right-click');
+  const item = state.menus.at(-1).items.find(item => /^Choisir mon compagnon/.test(item.label));
+  assert.ok(item, 'the native menu can reopen the companion chooser');
+  item.click();
+  state.popup.callback();
+  return state.getLauncher();
+}
 
 test('desktop startup uses a transparent, unfocused, sandboxed local window', async () => {
   const state = await boot();
-  assert.equal(state.windows.length, 1);
+  assert.equal(state.windows.length, 2);
   const options = state.pet.options;
   assert.equal(options.transparent, true);
   assert.equal(options.frame, false);
@@ -198,7 +235,7 @@ test('IPC ignores foreign senders, while the tray menu can quit cleanly', async 
   state.action('feed', { sender: {}, senderFrame: {} });
   assert.notEqual(state.tick().mode, 'feed');
   state.tray.emit('right-click');
-  const quit = state.menus.at(-1).items.find(item => item.label === 'Quitter Pip');
+  const quit = state.menus.at(-1).items.find(item => /^Quitter/.test(item.label));
   assert.equal(typeof quit.click, 'function');
   quit.click();
   assert.equal(state.quit, 1);
@@ -296,4 +333,140 @@ test('a customized Pip follows the same wandering behavior as an unadorned Pip',
     assert.equal(dressedState.mode, normalState.mode);
     assert.equal(dressedState.direction, normalState.direction);
   }
+});
+
+test('startup keeps the pet hidden while a normal chooser offers the last selected species', async () => {
+  const state = await boot({ species: 'capybara' }, { autoChoose: false });
+  assert.equal(state.pet.visible, false);
+  const launcher = state.getLauncher();
+  assert.ok(launcher);
+  assert.notEqual(launcher.options.focusable, false);
+  assert.notEqual(launcher.options.transparent, true);
+  assert.equal(launcher.visible, true);
+  assert.equal(launcher.options.webPreferences.sandbox, true);
+  assert.equal(launcher.options.webPreferences.contextIsolation, true);
+  assert.equal(launcher.options.webPreferences.nodeIntegration, false);
+  assert.match(launcher.loadedURL, /^pip:\/\/app\/launcher\.html/);
+  assert.equal(state.writes.at(-1).content.species, 'capybara');
+  const selection = state.sends.filter(message => message.channel === 'launcher:state' && message.window === launcher).at(-1)?.value;
+  assert.equal(selection?.species, 'capybara', 'the last choice is preselected');
+  const invalid = await boot({ species: 'ferret' }, { autoChoose: false });
+  assert.equal(invalid.writes.at(-1).content.species, 'hamster');
+});
+
+test('only the current chooser main frame can select a supported species', async () => {
+  const state = await boot(undefined, { autoChoose: false });
+  const initial = state.getLauncher();
+  const petSender = { sender: state.pet.webContents, senderFrame: state.pet.webContents.mainFrame };
+  for (const event of [petSender, { sender: {}, senderFrame: {} }, { sender: initial.webContents, senderFrame: {} }]) {
+    state.choose('capybara', event);
+    assert.equal(initial.isDestroyed(), false);
+    assert.equal(state.pet.visible, false);
+  }
+  for (const species of ['ferret', null, { species: 'capybara' }, '../capybara']) {
+    state.choose(species);
+    assert.equal(initial.isDestroyed(), false);
+  }
+  state.choose('capybara');
+  assert.equal(initial.isDestroyed(), true);
+  assert.equal(state.pet.visible, true);
+  assert.equal(state.writes.at(-1).content.species, 'capybara');
+  assert.equal(state.tick().species, 'capybara');
+  const reopened = openChooser(state);
+  state.choose('hamster', { sender: initial.webContents, senderFrame: initial.webContents.mainFrame });
+  assert.equal(reopened.isDestroyed(), false, 'an old closed chooser cannot change the selection');
+  assert.equal(state.writes.at(-1).content.species, 'capybara');
+  state.choose('hamster');
+  assert.equal(state.writes.at(-1).content.species, 'hamster');
+  assert.equal(state.tick().species, 'hamster');
+});
+
+test('closing the initial chooser quits, but cancelling a later chooser resumes the pet', async () => {
+  const initial = await boot(undefined, { autoChoose: false });
+  initial.getLauncher().close();
+  assert.equal(initial.quit, 1);
+  const active = await boot();
+  active.tick();
+  const before = { ...active.pet.bounds };
+  const reopened = openChooser(active);
+  for (let i = 0; i < 100; i++) active.tick();
+  assert.deepEqual(active.pet.bounds, before, 'opening the chooser suspends wandering');
+  reopened.close();
+  assert.equal(active.quit, 0);
+  assert.equal(active.pet.visible, true);
+  for (let i = 0; i < 30; i++) active.tick();
+  assert.notDeepEqual(active.pet.bounds, before, 'cancelling resumes wandering');
+});
+
+test('hamster and capybara retain independent wardrobes when switching companions', async () => {
+  const state = await boot();
+  selectAppearance(state, 'Couvre-chefs', 'Casquette');
+  selectAppearance(state, 'Vêtements', 'Sweat à capuche');
+  selectAppearance(state, 'Couleur de la tenue', 'Rose');
+  const hamsterLook = { hat: 'cap', glasses: 'none', outfit: 'hoodie', color: 'rose' };
+  openChooser(state);
+  state.choose('capybara');
+  assert.deepEqual(plain(state.tick().appearance), defaultAppearance);
+  selectAppearance(state, 'Lunettes', 'De soleil');
+  selectAppearance(state, 'Vêtements', 'Marinière');
+  selectAppearance(state, 'Couleur de la tenue', 'Bleu');
+  const capybaraLook = { hat: 'none', glasses: 'sun', outfit: 'mariniere', color: 'blue' };
+  openChooser(state);
+  state.choose('hamster');
+  assert.deepEqual(plain(state.tick().appearance), hamsterLook);
+  assert.deepEqual(state.writes.at(-1).content.appearances, { hamster: hamsterLook, capybara: capybaraLook });
+  openChooser(state);
+  state.choose('capybara');
+  assert.deepEqual(plain(state.tick().appearance), capybaraLook);
+  assert.deepEqual(state.writes.at(-1).content.appearance, capybaraLook, 'legacy compatibility follows the active look');
+});
+
+test('legacy wardrobe preferences migrate to the hamster and a capybara keeps its saved look', async () => {
+  const hamsterLook = { hat: 'flower', glasses: 'heart', outfit: 'scarf', color: 'lavender' };
+  const capybaraLook = { hat: 'beanie', glasses: 'round', outfit: 'overalls', color: 'blue' };
+  const state = await boot({ species: 'capybara', appearance: hamsterLook, appearances: { capybara: capybaraLook } });
+  assert.equal(state.tick().species, 'capybara');
+  assert.deepEqual(plain(state.tick().appearance), capybaraLook);
+  openChooser(state);
+  state.choose('hamster');
+  assert.deepEqual(plain(state.tick().appearance), hamsterLook);
+  assert.deepEqual(state.writes.at(-1).content.appearances.capybara, capybaraLook);
+});
+
+test('tray activation cannot bypass the chooser and pet actions are blocked while choosing', async () => {
+  const initial = await boot(undefined, { autoChoose: false });
+  initial.tray.emit('double-click');
+  initial.app.emit('activate');
+  initial.app.emit('second-instance');
+  assert.equal(initial.pet.visible, false);
+  assert.equal(initial.windows.length, 2, 'activation reuses the existing chooser');
+  initial.action('feed');
+  assert.notEqual(initial.tick().mode, 'feed');
+  const active = await boot();
+  active.pointAtPet();
+  const before = { ...active.pet.bounds };
+  openChooser(active);
+  active.action('drag-start');
+  active.cursor = { x: active.cursor.x - 200, y: active.cursor.y - 200 };
+  active.tick();
+  assert.deepEqual(active.pet.bounds, before);
+  assert.equal(active.input.at(-1).value, true, 'the paused pet lets input through');
+  const chooser = active.getLauncher();
+  active.cancel({ sender: active.pet.webContents, senderFrame: active.pet.webContents.mainFrame });
+  assert.equal(chooser.isDestroyed(), false, 'the pet cannot cancel the chooser');
+  active.cancel();
+  assert.equal(chooser.isDestroyed(), true);
+  assert.equal(active.quit, 0);
+});
+
+test('resetting one companion keeps the other wardrobe saved', async () => {
+  const hamsterLook = { hat: 'crown', glasses: 'heart', outfit: 'hoodie', color: 'rose' };
+  const capybaraLook = { hat: 'cowboy', glasses: 'sun', outfit: 'overalls', color: 'blue' };
+  const state = await boot({ species: 'capybara', appearances: { hamster: hamsterLook, capybara: capybaraLook } });
+  customization(state).find(item => item.label === 'Retirer les accessoires').click();
+  state.popup.callback();
+  assert.deepEqual(state.writes.at(-1).content.appearances, { hamster: hamsterLook, capybara: defaultAppearance });
+  openChooser(state);
+  state.choose('hamster');
+  assert.deepEqual(plain(state.tick().appearance), hamsterLook);
 });

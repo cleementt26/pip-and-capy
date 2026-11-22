@@ -61,6 +61,24 @@ test('visible hats can be caressed and dragged while their absent space stays cl
   assert.equal(pet.hitTest(blossom), false);
 });
 
+test('both species accept caresses and dragging while transparent corners pass through', () => {
+  for (const species of ['hamster', 'capybara']) {
+    const pet = make();
+    pet.species = species;
+    const b = pet.bounds();
+    assert.equal(pet.hitTest({ x: b.x + 2, y: b.y + 2 }), false);
+    const face = center(pet);
+    assert.equal(pet.hitTest(face), true);
+    assert.equal(step(pet, 100, face).mode, 'pet');
+    assert.equal(pet.startDrag(face), true);
+    assert.equal(step(pet, 200, { x: face.x - 50, y: face.y - 50 }).mode, 'drag');
+    assert.equal(pet.bounds().x, b.x - 50);
+    assert.equal(pet.bounds().y, b.y - 50);
+    pet.endDrag(250);
+    assert.equal(step(pet, 300).mode, 'pet');
+  }
+});
+
 test('hovering pets Pip immediately and stops walking, with a short release grace', () => {
   const pet = make();
   step(pet, 0);
