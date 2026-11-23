@@ -8,7 +8,7 @@ que tu choisis. Deux personnages originaux dans **une seule application**.
 
 ## Télécharger et lancer
 
-**[Télécharger la dernière version](https://github.com/cleementt26/pip-hamster/releases/latest)**
+**[Télécharger la dernière version](https://github.com/cleementt26/pip-and-capy/releases/latest)**
 
 | Ordinateur | Archive | Premier lancement |
 | --- | --- | --- |
@@ -105,6 +105,3 @@ transparente. Le sélecteur utilise une fenêtre séparée et isolée.
 Les versions de développement sont fixées dans `package-lock.json`.
 Licence MIT pour le code et les dessins originaux ; les licences tierces
 sont conservées dans les applications distribuées.
-
-Le dépôt garde son adresse historique `pip-hamster` ; il contient désormais
-les deux compagnons.
